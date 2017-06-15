@@ -1,0 +1,868 @@
+fileFormatVersion: 2
+guid: d8a0f353398037843badeb5815ebd9a3
+timeCreated: 1497176604
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: hsvhero_idle_1
+    21300002: hsvhero_idle_2
+    21300004: hsvhero_idle_3
+    21300006: hsvhero_3
+    21300008: hsvhero_4
+    21300010: hsvhero_5
+    21300012: hsvhero_6
+    21300014: hsvhero_7
+    21300016: hsvhero_8
+    21300018: hsvhero_9
+    21300020: hsvhero_10
+    21300022: hsvhero_11
+    21300024: hsvhero_12
+    21300026: hsvhero_13
+    21300028: hsvhero_walk_2
+    21300030: hsvhero_walk_3
+    21300032: hsvhero_16
+    21300034: hsvhero_17
+    21300036: hsvhero_walk_1
+    21300038: hsvhero_walk_4
+    21300040: hsvhero_20
+    21300042: hsvhero_21
+    21300044: hsvhero_22
+    21300046: hsvhero_23
+    21300048: hsvhero_24
+    21300050: hsvhero_25
+    21300052: hsvhero_26
+    21300054: hsvhero_27
+    21300056: hsvhero_28
+    21300058: hsvhero_29
+    21300060: hsvhero_30
+    21300062: hsvhero_31
+    21300064: hsvhero_32
+    21300066: hsvhero_33
+    21300068: hsvhero_jump_1
+    21300070: hsvhero_jump_2
+    21300072: hsvhero_jump_3
+    21300074: hsvhero_jump_4
+    21300076: hsvhero_sword_stand_1
+    21300078: hsvhero_sword_stand_2
+    21300080: hsvhero_sword_stand_3
+    21300082: hsvhero_sword_crouch_1
+    21300084: hsvhero_sword_crouch_2
+    21300086: hsvhero_sword_crouch_3
+    21300088: hsvhero_sword_down_1
+    21300090: hsvhero_sword_down_2
+    21300092: hsvhero_shield_stand
+    21300094: hsvhero_shield_crouch
+    21300096: hsvhero_bow_1
+    21300098: hsvhero_bow_2
+    21300100: hsvhero_bow_3
+    21300102: hsvhero_bow_4
+    21300104: hsvhero_bow_5
+    21300106: hsvhero_bow_6
+    21300108: hsvhero_0
+    21300110: hsvhero_1
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: hsvhero_idle_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 536
+        width: 16
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_idle_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 536
+        width: 16
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_idle_3
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 536
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_3
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 556
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_4
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 556
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_5
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 568
+        width: 8
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_6
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 556
+        width: 25
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_7
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 556
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_8
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 543
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_9
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 543
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_10
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 535
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_11
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 535
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_12
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 527
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_13
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 527
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_walk_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 488
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_walk_3
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 488
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_16
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 519
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_17
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 519
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_walk_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 488
+        width: 16
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_walk_4
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 488
+        width: 16
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_20
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 511
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_21
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 511
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_22
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 503
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_23
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 503
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_24
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 495
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_25
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 495
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_26
+      rect:
+        serializedVersion: 2
+        x: 290
+        y: 495
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_27
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 495
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_28
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 495
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_29
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 495
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_30
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 487
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_31
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 487
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_32
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 479
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_33
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 479
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_jump_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 441
+        width: 20
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_jump_2
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 392
+        width: 18
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_jump_3
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 345
+        width: 20
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_jump_4
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 296
+        width: 15
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_sword_stand_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 248
+        width: 16
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_sword_stand_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 248
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.2950244, y: 0.49999905}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_sword_stand_3
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 248
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.32176042, y: 0.50891113}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_sword_crouch_1
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 200
+        width: 14
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_sword_crouch_2
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 200
+        width: 30
+        height: 32
+      alignment: 9
+      pivot: {x: 0.3, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_sword_crouch_3
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 200
+        width: 30
+        height: 32
+      alignment: 9
+      pivot: {x: 0.3, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_sword_down_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 147
+        width: 16
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_sword_down_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 147
+        width: 15
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_shield_stand
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 104
+        width: 22
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_shield_crouch
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 56
+        width: 21
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_bow_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 8
+        width: 26
+        height: 32
+      alignment: 9
+      pivot: {x: 0.35, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_bow_2
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 8
+        width: 27
+        height: 32
+      alignment: 9
+      pivot: {x: 0.38, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_bow_3
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 8
+        width: 20
+        height: 32
+      alignment: 9
+      pivot: {x: 0.41, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_bow_4
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 8
+        width: 21
+        height: 32
+      alignment: 9
+      pivot: {x: 0.38, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_bow_5
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 8
+        width: 23
+        height: 32
+      alignment: 9
+      pivot: {x: 0.41, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_bow_6
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 8
+        width: 24
+        height: 32
+      alignment: 9
+      pivot: {x: 0.43, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_0
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 263
+        width: 2
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hsvhero_1
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 322
+        width: 52
+        height: 68
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

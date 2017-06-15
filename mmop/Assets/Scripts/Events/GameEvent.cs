@@ -1,0 +1,7 @@
+﻿
+
+public abstract class GameEvent
+{
+
+}
+
