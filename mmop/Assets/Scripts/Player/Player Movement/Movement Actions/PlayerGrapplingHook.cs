@@ -13,7 +13,7 @@ public class PlayerGrapplingHook : MonoBehaviour, MovementAction
     private DistanceJoint2D grapplingHook;
     private PlayerControls controls;
     private LineRenderer hookLine;
-    private Vector2 hitPoint;
+    private Transform hookAttachmentLoc;
 
     void Awake()
     {
@@ -42,6 +42,9 @@ public class PlayerGrapplingHook : MonoBehaviour, MovementAction
         hookLine.startWidth = hookLineWidth;
         hookLine.endWidth = hookLineWidth;
         hookLine.material = hookLineMaterial;
+
+        hookAttachmentLoc = new GameObject("Grappling Hook Attach Location").transform;
+
     }
 
     void Update()
@@ -67,7 +70,8 @@ public class PlayerGrapplingHook : MonoBehaviour, MovementAction
                     hookLine.SetPosition(1, hit.point);
                     hookLine.enabled = true;
 
-                    hitPoint = hit.point;
+                    hookAttachmentLoc.position = hit.point;
+                    hookAttachmentLoc.SetParent(hit.collider.transform);
                 }
             }
         }
@@ -78,10 +82,7 @@ public class PlayerGrapplingHook : MonoBehaviour, MovementAction
                 grapplingHook.distance -= pullDistancePerSecond * Time.deltaTime;
 
                 hookLine.SetPosition(0, (Vector2)transform.position + grapplingHook.anchor);
-
-                //TODO(robert): this does not line up correctly with grapplehook.
-                hookLine.SetPosition(1, (Vector2)grapplingHook.connectedBody.transform.position
-                    + (Vector2)grapplingHook.connectedBody.transform.InverseTransformPoint(hitPoint));
+                hookLine.SetPosition(1, hookAttachmentLoc.position);
             }
             else
             {

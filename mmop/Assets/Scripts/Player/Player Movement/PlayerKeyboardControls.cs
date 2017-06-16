@@ -79,6 +79,12 @@ public class PlayerKeyboardControls : MonoBehaviour, PlayerControls
         return Input.GetKeyUp(KeyCode.Q);
     }
 
+    public bool IsNoMovementControlPressed()
+    {
+        return !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) &&
+            !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow);
+    }
+
     public float GetMovement()
     {
         return Input.GetAxis("Horizontal");

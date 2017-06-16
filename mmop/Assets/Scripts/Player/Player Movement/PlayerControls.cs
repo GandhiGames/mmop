@@ -24,6 +24,8 @@ public interface PlayerControls
     bool IsSecondaryAttackButtonHeld();
     bool IsSecondaryAttackButtonReleased();
 
+    bool IsNoMovementControlPressed();
+
     float GetMovement();
 
     Vector2 GetAimDirection();

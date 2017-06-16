@@ -16,6 +16,12 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     public float runForceMultiplier = 1.2f;
 
+    [Range(0f, 1f)]
+    public float reactivityPercentage = 0.5f;
+
+    public bool instantStopGround = true;
+    public bool instantStopAir = false;
+
     private Rigidbody2D rigidbody2d;
     private PlayerControls playerControls;
     private float horizontalMovement = 0f;
@@ -59,16 +65,44 @@ public class PlayerMovementController : MonoBehaviour
         }
 
         horizontalMovement = playerControls.GetMovement();
+
+        if (playerControls.IsNoMovementControlPressed())
+        {
+            if (instantStopGround && groundStatus.isGrounded)
+            {
+                horizontalMovement = 0f;
+            }
+            else if(instantStopAir && !groundStatus.isGrounded)
+            {
+                horizontalMovement = 0f;
+            }
+        }
     }
 
     void FixedUpdate()
     {
-        if (horizontalMovement == 0f || !canMove)
+        if(horizontalMovement == 0f)
+        {
+            rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
+            return;
+        }
+
+        if (!canMove)
         {
             return;
         }
 
         float moveForce = groundStatus.isGrounded ? moveForceOnGround : moveForceInAir;
+
+        if (horizontalMovement < 0f && direction.currentDirection == FacingDirection.Right
+            || horizontalMovement > 0f && direction.currentDirection == FacingDirection.Left)
+        {
+            if (Mathf.Abs(rigidbody2d.velocity.x) >= moveForce * 0.1f)
+            {
+                print("Reactive direction change");
+                moveForce += moveForce * reactivityPercentage;
+            }
+        }
 
         rigidbody2d.velocity = new Vector2(horizontalMovement * moveForce * speedMultiplier, rigidbody2d.velocity.y);
 

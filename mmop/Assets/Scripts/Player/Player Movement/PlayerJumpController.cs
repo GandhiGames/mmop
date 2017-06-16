@@ -20,6 +20,7 @@ public class PlayerJumpController : MonoBehaviour
     private PlayerJumpEvent jumpEvent;
     private float horizontalForce = 0f;
     private EventController eventController;
+    private bool queuedJump = false;
 
     void Awake()
     {
@@ -46,8 +47,33 @@ public class PlayerJumpController : MonoBehaviour
         eventController.RemoveListener<WallJumpEvent>(OnWallJumpRequested);
     }
 
+    //TODO(robert): add downwards force when crouching in the air. 
+    // create seperate class?
     void Update()
     {
+        print("look above!");
+
+        if(queuedJump && groundStatus.isGrounded &&
+            playerControls.IsJumpButtonHeld())
+        {
+            print("Queued jump");
+            jumpTime = 0f;
+            jump = true;
+            highJumping = false;
+        }
+
+        if(queuedJump)
+        {
+            return;
+        }
+
+        if(groundStatus.isAlmostGrounded && playerControls.IsJumpButtonPressed())
+        {
+            queuedJump = true;
+
+            return;
+        }
+
         if(groundStatus.isGrounded)
         {
             jumpIndex = numberOfJumps;
@@ -104,6 +130,7 @@ public class PlayerJumpController : MonoBehaviour
             }
 
             jump = false;
+            queuedJump = false;
         }
     }
 
