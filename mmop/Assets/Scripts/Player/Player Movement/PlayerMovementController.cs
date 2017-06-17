@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(PlayerControls), 
+[RequireComponent(typeof(Rigidbody2D), typeof(PlayerControls),
     typeof(PlayerDirection))]
 [RequireComponent(typeof(EventController))]
 public class PlayerMovementController : MonoBehaviour
@@ -73,7 +73,7 @@ public class PlayerMovementController : MonoBehaviour
                 rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
                 horizontalMovement = 0f;
             }
-            else if(instantStopAir && !groundStatus.isGrounded)
+            else if (instantStopAir && !groundStatus.isGrounded)
             {
                 rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
                 horizontalMovement = 0f;
@@ -85,7 +85,7 @@ public class PlayerMovementController : MonoBehaviour
     // Should check y velocity as well.
     void FixedUpdate()
     {
-        if(horizontalMovement == 0f)
+        if (horizontalMovement == 0f)
         {
             return;
         }
@@ -120,8 +120,11 @@ public class PlayerMovementController : MonoBehaviour
         direction.Face(horizontalMovement > 0f ? FacingDirection.Right : FacingDirection.Left);
     }
 
+    //TODO: should be able to move whilst crouched and inthe air,
+    // and should not be able to move when touch ground.
     private void PlayerCrouchStatusChanged(PlayerCrouchEvent e)
     {
+        print("Look above");
         UpdateMovementStatus(!e.status.isCrouching);
     }
 
@@ -142,7 +145,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private void UpdateMovementStatus(bool move)
     {
-        if(pausingMovement)
+        if (pausingMovement)
         {
             return;
         }

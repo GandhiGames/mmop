@@ -9,21 +9,26 @@ public interface WallStatus
 
 public class WallCheck : MonoBehaviour, WallStatus
 {
-    public Transform forwardTransform;
+    public Transform[] forwardTransforms;
     public LayerMask wallMask;
     public bool isTouchingWall { get; set; }
 
     void Update()
     {
-        RaycastHit2D hit = Physics2D.Linecast(transform.position, forwardTransform.position, wallMask);
+        foreach (var forward in forwardTransforms)
+        {
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, forward.position, wallMask);
 
-        if(hit.collider != null)
-        {
-            isTouchingWall = true;
-        }
-        else
-        {
-            isTouchingWall = false;
+            if (hit.collider != null)
+            {
+                isTouchingWall = true;
+
+                break;
+            }
+            else
+            {
+                isTouchingWall = false;
+            }
         }
     }
 }
