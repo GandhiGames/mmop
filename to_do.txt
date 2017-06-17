@@ -1,0 +1,3 @@
+look into 2d visual effects
+create battlemode camera (two players, locked onto level bounds, zooms out as players mvoe further apart)
+animate grapple hook 

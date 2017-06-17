@@ -70,20 +70,23 @@ public class PlayerMovementController : MonoBehaviour
         {
             if (instantStopGround && groundStatus.isGrounded)
             {
+                rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
                 horizontalMovement = 0f;
             }
             else if(instantStopAir && !groundStatus.isGrounded)
             {
+                rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
                 horizontalMovement = 0f;
             }
         }
     }
 
+    //TODO: max speed check is not performed if there is no input.
+    // Should check y velocity as well.
     void FixedUpdate()
     {
         if(horizontalMovement == 0f)
         {
-            rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
             return;
         }
 
@@ -97,7 +100,7 @@ public class PlayerMovementController : MonoBehaviour
         if (horizontalMovement < 0f && direction.currentDirection == FacingDirection.Right
             || horizontalMovement > 0f && direction.currentDirection == FacingDirection.Left)
         {
-            if (Mathf.Abs(rigidbody2d.velocity.x) >= moveForce * 0.1f)
+            if (Mathf.Abs(rigidbody2d.velocity.x) >= maxSpeed * 0.2f)
             {
                 print("Reactive direction change");
                 moveForce += moveForce * reactivityPercentage;
@@ -110,6 +113,7 @@ public class PlayerMovementController : MonoBehaviour
 
         if (Mathf.Abs(rigidbody2d.velocity.x) > maxSpeed)
         {
+            print("Max speed reached");
             rigidbody2d.velocity = new Vector2(Mathf.Sign(rigidbody2d.velocity.x) * maxSpeed, rigidbody2d.velocity.y);
         }
 

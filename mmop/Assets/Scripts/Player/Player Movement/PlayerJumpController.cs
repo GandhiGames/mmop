@@ -47,12 +47,8 @@ public class PlayerJumpController : MonoBehaviour
         eventController.RemoveListener<WallJumpEvent>(OnWallJumpRequested);
     }
 
-    //TODO(robert): add downwards force when crouching in the air. 
-    // create seperate class?
     void Update()
     {
-        print("look above!");
-
         if(queuedJump && groundStatus.isGrounded &&
             playerControls.IsJumpButtonHeld())
         {
@@ -97,7 +93,7 @@ public class PlayerJumpController : MonoBehaviour
             {
                 jumpTime += Time.deltaTime;
 
-                if (jumpTime < maxJumpTime)
+                if (jumpTime <= maxJumpTime)
                 {
                     jump = true;
                     highJumping = true;

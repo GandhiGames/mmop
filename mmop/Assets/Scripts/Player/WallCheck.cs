@@ -7,19 +7,11 @@ public interface WallStatus
     bool isTouchingWall { get; }
 }
 
-[RequireComponent(typeof(PlayerControls))]
 public class WallCheck : MonoBehaviour, WallStatus
 {
     public Transform forwardTransform;
     public LayerMask wallMask;
     public bool isTouchingWall { get; set; }
-
-    private PlayerControls controls;
-
-    void Awake()
-    {
-        controls = GetComponent<PlayerControls>();    
-    }
 
     void Update()
     {
