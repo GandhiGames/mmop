@@ -120,12 +120,19 @@ public class PlayerMovementController : MonoBehaviour
         direction.Face(horizontalMovement > 0f ? FacingDirection.Right : FacingDirection.Left);
     }
 
-    //TODO: should be able to move whilst crouched and inthe air,
+    //TODO: should be able to move whilst crouched and in the air,
     // and should not be able to move when touch ground.
     private void PlayerCrouchStatusChanged(PlayerCrouchEvent e)
     {
-        print("Look above");
-        UpdateMovementStatus(!e.status.isCrouching);
+        if (groundStatus.isGrounded)
+        {
+            UpdateMovementStatus(!e.status.isCrouching);
+
+            if(e.status.isCrouching)
+            {
+                rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
+            }
+        }
     }
 
     private void PlayerAttackStatusChanged(PlayerAttackEvent e)

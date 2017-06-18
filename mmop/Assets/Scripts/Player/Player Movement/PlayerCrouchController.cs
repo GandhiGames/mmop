@@ -19,6 +19,8 @@ public class PlayerCrouchController : MonoBehaviour, CrouchStatus
     private EventController eventController;
     private GroundStatus groundStatus;
     private Rigidbody2D rigidbody2d;
+    private PlayerCrouchEvent crouchEvent;
+    private bool previousCrouchStatus;
 
     void Awake()
     {
@@ -31,8 +33,13 @@ public class PlayerCrouchController : MonoBehaviour, CrouchStatus
     void Start()
     {
         isCrouching = false;
+
+        crouchEvent = new PlayerCrouchEvent(this);
+
+        previousCrouchStatus = groundStatus.isGrounded;
     }
 
+    // should be able to pass through traversable platform and still move in air.
     void Update()
     {
         bool shouldCrouch = playerControls.IsCrouchButtonHeld();
@@ -40,7 +47,16 @@ public class PlayerCrouchController : MonoBehaviour, CrouchStatus
         if (shouldCrouch != isCrouching)
         {
             isCrouching = shouldCrouch;
-            eventController.Raise(new PlayerCrouchEvent(this));
+            previousCrouchStatus = groundStatus.isGrounded;
+            eventController.Raise(crouchEvent);
+        }
+        else if(isCrouching && previousCrouchStatus != groundStatus.isGrounded)
+        {
+            if((groundStatus.isGrounded && !groundStatus.ground.CompareTag("Platform")) || !groundStatus.isGrounded)
+            {
+                previousCrouchStatus = groundStatus.isGrounded;
+                eventController.Raise(crouchEvent);
+            }
         }
 
         if(isCrouching && !groundStatus.isGrounded)

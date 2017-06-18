@@ -15,12 +15,15 @@ public class PlayerPlatformAttacher : MonoBehaviour
 
     void Update()
     {
-        if(groundStatus.isGrounded && groundStatus.ground.CompareTag("Moving Platform"))
+        if(groundStatus.isGrounded && groundStatus.ground.CompareTag("Platform"))
         {
-            if(platform == null || groundStatus.ground.GetInstanceID() != platform.GetInstanceID())
+            if (groundStatus.ground.GetComponent<MovingPlatform>() != null)
             {
-                platform = groundStatus.ground;
-                transform.SetParent(platform.transform);
+                if (platform == null || groundStatus.ground.GetInstanceID() != platform.GetInstanceID())
+                {
+                    platform = groundStatus.ground;
+                    transform.SetParent(platform.transform);
+                }
             }
         }
         else
