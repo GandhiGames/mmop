@@ -13,16 +13,18 @@ public class WallCheck : MonoBehaviour, WallStatus
     public LayerMask wallMask;
     public bool isTouchingWall { get; set; }
 
+
     void Update()
     {
         foreach (var forward in forwardTransforms)
         {
-            RaycastHit2D hit = Physics2D.Linecast(transform.position, forward.position, wallMask);
+            var origin = new Vector2(transform.position.x, forward.position.y);
+
+            RaycastHit2D hit = Physics2D.Linecast(origin, forward.position, wallMask);
 
             if (hit.collider != null)
             {
                 isTouchingWall = true;
-
                 break;
             }
             else

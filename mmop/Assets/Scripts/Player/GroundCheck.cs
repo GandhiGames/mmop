@@ -12,7 +12,7 @@ public interface GroundStatus
 [RequireComponent(typeof(Rigidbody2D))]
 public class GroundCheck : MonoBehaviour, GroundStatus
 {
-    public Transform groundTransform;
+    public Transform[] groundTransforms;
     public Transform almostGroundTransform;
     public LayerMask platformLayer;
 
@@ -46,7 +46,7 @@ public class GroundCheck : MonoBehaviour, GroundStatus
 
             if (almostGroundHit.collider != null)
             {
-                RaycastHit2D hit = Physics2D.Linecast(transform.position, groundTransform.position, platformLayer);
+                RaycastHit2D hit = Physics2D.Linecast(transform.position, groundTransforms[0].position, platformLayer);
 
                 if (hit.collider == null)
                 {
@@ -59,15 +59,25 @@ public class GroundCheck : MonoBehaviour, GroundStatus
             }
         }
 
-        RaycastHit2D groundHit = Physics2D.Linecast(transform.position, groundTransform.position, platformLayer);
-
-        if (groundHit.collider != null)
+        foreach (var groundTransform in groundTransforms)
         {
-            isAlmostGrounded = false;
-            isGrounded = true;
-            ground = groundHit.collider.gameObject;
+            var origin = new Vector2(groundTransform.position.x, transform.position.y);
+
+            RaycastHit2D groundHit = Physics2D.Linecast(origin, groundTransform.position, platformLayer);
+
+            Debug.DrawLine(origin, groundTransform.position);
+
+            if (groundHit.collider != null)
+            {
+                isAlmostGrounded = false;
+                isGrounded = true;
+                ground = groundHit.collider.gameObject;
+
+                break;
+            }
         }
-        else
+
+        if(!isGrounded)
         {
             isAlmostGrounded = false;
             isGrounded = false;

@@ -192,6 +192,11 @@ public class PlayerGrapplingHook : MonoBehaviour, MovementAction
 
     private void UpdateHookPosition()
     {
+        if(!grapplingHook.enabled)
+        {
+            return;
+        }
+
         if (grapplingHook.distance > 0.2f)
         {
             var blockedHit = Physics2D.Raycast((Vector2)hookLine.GetPosition(0), direction, grapplingHook.distance);
