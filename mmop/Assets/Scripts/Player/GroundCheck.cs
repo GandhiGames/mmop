@@ -10,7 +10,7 @@ public interface GroundStatus
 }
 
 //TODO: turn this into event rather than polling.
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(PlayerMotor))]
 public class GroundCheck : MonoBehaviour, GroundStatus
 {
     public Transform[] groundTransforms;
@@ -21,14 +21,14 @@ public class GroundCheck : MonoBehaviour, GroundStatus
     public bool isAlmostGrounded { get; private set; }
     public GameObject ground { get; private set; }
 
-    private Rigidbody2D rigidbody2d;
+    private PlayerMotor motor;
 
     //TODO: should ground check be aware of animator? update this when moved over to event system.
     private Animator animator;
 
     void Awake()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();
+        motor = GetComponent<PlayerMotor>();
         animator = GetComponent<Animator>();
     }
 
@@ -36,7 +36,7 @@ public class GroundCheck : MonoBehaviour, GroundStatus
     {
         //TODO: what if character is not using rigidbody? Generalise based
         //on jumping system.
-        if (rigidbody2d.velocity.y > 0f)
+        if (motor.velocity.y > 0f)
         {
             isGrounded = false;
             isAlmostGrounded = false;
@@ -47,7 +47,7 @@ public class GroundCheck : MonoBehaviour, GroundStatus
             return;
         }
  
-        if(rigidbody2d.velocity.y < 0f && !isAlmostGrounded)
+        if(motor.velocity.y < 0f && !isAlmostGrounded)
         {
             RaycastHit2D almostGroundHit = Physics2D.Linecast(transform.position, almostGroundTransform.position, platformLayer);
 

@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(PlayerMotor))]
 public class Knockback : MonoBehaviour, Damageable
 {
     public float knockbackForce = 100f;
 
-    private Rigidbody2D rigidbody2d;
+    private PlayerMotor motor;
 
     void Awake()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();    
+        motor = GetComponent<PlayerMotor>();    
     }
 
     public void Damage(float amount, Vector2 dir)
     {
-        rigidbody2d.AddForce(dir * knockbackForce);
+        motor.AddForce(dir * knockbackForce);
     }
 
 }

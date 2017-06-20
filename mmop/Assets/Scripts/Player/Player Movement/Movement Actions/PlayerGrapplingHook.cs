@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: look into better movement for shooting/retracting (rather that a linear speed).
 [RequireComponent(typeof(DistanceJoint2D), typeof(PlayerControls))]
 public class PlayerGrapplingHook : MonoBehaviour, MovementAction
 {
@@ -11,6 +12,7 @@ public class PlayerGrapplingHook : MonoBehaviour, MovementAction
     public float retractionSpeed = 8f;
     public float maxDistance = 10f;
     public float overRunCatchDistance = 0.8f;
+    public Transform shootDir;
 
     public Material hookLineMaterial;
 
@@ -179,7 +181,7 @@ public class PlayerGrapplingHook : MonoBehaviour, MovementAction
 
     private void StartHookMovement()
     {
-        direction = controls.GetAimDirection();
+        direction = (shootDir.position - transform.position).normalized;
 
         hookLine.enabled = true;
 

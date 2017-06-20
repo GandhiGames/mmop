@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //TODO(robert): look into why character can sometimes jump an additional jump.
-[RequireComponent(typeof(Rigidbody2D), typeof(EventController))]
+[RequireComponent(typeof(PlayerMotor), typeof(EventController))]
 public class PlayerJumpController : MonoBehaviour
 {
     public float jumpForce = 150f;
     public int numberOfJumps = 1;
     public float maxJumpTime = 0.2f;
 
-    private Rigidbody2D rigidbody2d;
+    private PlayerMotor motor;
     private PlayerControls playerControls;
     private GroundStatus groundStatus;
     private bool jump = false;
@@ -24,7 +24,7 @@ public class PlayerJumpController : MonoBehaviour
 
     void Awake()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();
+        motor = GetComponent<PlayerMotor>();
         playerControls = GetComponent<PlayerControls>();
         groundStatus = GetComponent<GroundStatus>();
         eventController = GetComponent<EventController>();
@@ -114,8 +114,8 @@ public class PlayerJumpController : MonoBehaviour
     {
         if(jump)
         {
-            rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x, 0f);
-            rigidbody2d.AddForce(new Vector2(horizontalForce, jumpForce));
+            motor.velocity = new Vector2(motor.velocity.x, 0f);
+            motor.AddForce(new Vector2(horizontalForce, jumpForce));
 
             horizontalForce = 0f;
 

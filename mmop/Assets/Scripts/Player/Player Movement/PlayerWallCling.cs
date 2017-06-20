@@ -11,7 +11,7 @@ public interface WallClingStatus
 //remove reference to rigidbody.
 [RequireComponent(typeof(WallStatus), typeof(PlayerControls),
     typeof(PlayerDirection))]
-[RequireComponent(typeof(Rigidbody2D), typeof(EventController), typeof(GroundStatus))]
+[RequireComponent(typeof(PlayerMotor), typeof(EventController), typeof(GroundStatus))]
 public class PlayerWallCling : MonoBehaviour, WallClingStatus
 {
     [Range(0f, 1f)]
@@ -23,7 +23,7 @@ public class PlayerWallCling : MonoBehaviour, WallClingStatus
     private GroundStatus groundStatus;
     private PlayerControls playerControls;
     private PlayerDirection facing;
-    private Rigidbody2D rigidbody2d;
+    private PlayerMotor motor;
     private PlayerWallClingEvent clingEvent;
     private EventController events;
 
@@ -33,7 +33,7 @@ public class PlayerWallCling : MonoBehaviour, WallClingStatus
         groundStatus = GetComponent<GroundStatus>();
         playerControls = GetComponent<PlayerControls>();
         facing = GetComponent<PlayerDirection>();
-        rigidbody2d = GetComponent<Rigidbody2D>();
+        motor = GetComponent<PlayerMotor>();
         events = GetComponent<EventController>();
     }
 
@@ -65,10 +65,10 @@ public class PlayerWallCling : MonoBehaviour, WallClingStatus
                 isClingingToWall = false;
                 events.Raise(clingEvent);
 
-                if(rigidbody2d.velocity.y < 0f)
+                if(motor.velocity.y < 0f)
                 {
-                    rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x,
-                        rigidbody2d.velocity.y * (2f + velocityDampener));
+                    motor.velocity = new Vector2(motor.velocity.x,
+                        motor.velocity.y * (2f + velocityDampener));
                 }
                 return;
             }
@@ -86,7 +86,7 @@ public class PlayerWallCling : MonoBehaviour, WallClingStatus
                 bool prevStatus = isClingingToWall;
 
                 isClingingToWall = true;
-                rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x, rigidbody2d.velocity.y * velocityDampener);
+                motor.velocity = new Vector2(motor.velocity.x, motor.velocity.y * velocityDampener);
 
                 if (prevStatus != isClingingToWall)
                 {

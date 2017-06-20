@@ -8,7 +8,7 @@ public interface CrouchStatus
 }
 
 [RequireComponent(typeof(PlayerControls), typeof(EventController), typeof(GroundStatus))]
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(PlayerMotor))]
 public class PlayerCrouchController : MonoBehaviour, CrouchStatus
 {
     public float downwardForceInAir = 3f;
@@ -18,9 +18,7 @@ public class PlayerCrouchController : MonoBehaviour, CrouchStatus
     private PlayerControls playerControls;
     private EventController eventController;
     private GroundStatus groundStatus;
-
-    //TODO: generalise to movement controller interface.
-    private Rigidbody2D rigidbody2d;
+    private PlayerMotor motor;
     private PlayerCrouchEvent crouchEvent;
     private bool previousCrouchStatus;
     private bool shouldAddDownwardForce = true;
@@ -30,7 +28,7 @@ public class PlayerCrouchController : MonoBehaviour, CrouchStatus
         playerControls = GetComponent<PlayerControls>();
         eventController = GetComponent<EventController>();
         groundStatus = GetComponent<GroundStatus>();
-        rigidbody2d = GetComponent<Rigidbody2D>();
+        motor = GetComponent<PlayerMotor>();
     }
 
     void Start()
@@ -74,7 +72,7 @@ public class PlayerCrouchController : MonoBehaviour, CrouchStatus
 
         if (isCrouching && shouldAddDownwardForce && !groundStatus.isGrounded)
         {
-            rigidbody2d.AddForce(Vector2.down * downwardForceInAir);
+            motor.AddForce(Vector2.down * downwardForceInAir);
         }
     }
 

@@ -28,5 +28,5 @@ public interface PlayerControls
 
     float GetMovement();
 
-    Vector2 GetAimDirection();
+    //Vector2 GetAimDirection();
 }

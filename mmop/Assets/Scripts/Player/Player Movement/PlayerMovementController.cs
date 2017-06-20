@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(PlayerControls),
+[RequireComponent(typeof(PlayerMotor), typeof(PlayerControls),
     typeof(PlayerDirection))]
 [RequireComponent(typeof(EventController))]
 public class PlayerMovementController : MonoBehaviour
@@ -22,7 +22,7 @@ public class PlayerMovementController : MonoBehaviour
     public bool instantStopGround = true;
     public bool instantStopAir = false;
 
-    private Rigidbody2D rigidbody2d;
+    private PlayerMotor motor;
     private PlayerControls playerControls;
     private float horizontalMovement = 0f;
     private bool canMove = true;
@@ -34,7 +34,7 @@ public class PlayerMovementController : MonoBehaviour
 
     void Awake()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();
+        motor = GetComponent<PlayerMotor>();
         playerControls = GetComponent<PlayerControls>();
         groundStatus = GetComponent<GroundStatus>();
         direction = GetComponent<PlayerDirection>();
@@ -70,12 +70,12 @@ public class PlayerMovementController : MonoBehaviour
         {
             if (instantStopGround && groundStatus.isGrounded)
             {
-                rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
+                motor.velocity = new Vector2(0f, motor.velocity.y);
                 horizontalMovement = 0f;
             }
             else if (instantStopAir && !groundStatus.isGrounded)
             {
-                rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
+                motor.velocity = new Vector2(0f, motor.velocity.y);
                 horizontalMovement = 0f;
             }
         }
@@ -100,21 +100,21 @@ public class PlayerMovementController : MonoBehaviour
         if (horizontalMovement < 0f && direction.currentDirection == FacingDirection.Right
             || horizontalMovement > 0f && direction.currentDirection == FacingDirection.Left)
         {
-            if (Mathf.Abs(rigidbody2d.velocity.x) >= maxSpeed * 0.2f)
+            if (Mathf.Abs(motor.velocity.x) >= maxSpeed * 0.2f)
             {
                 print("Reactive direction change");
                 moveForce += moveForce * reactivityPercentage;
             }
         }
 
-        rigidbody2d.velocity = new Vector2(horizontalMovement * moveForce * speedMultiplier, rigidbody2d.velocity.y);
+        motor.velocity = new Vector2(horizontalMovement * moveForce * speedMultiplier, motor.velocity.y);
 
         //rigidbody2d.AddForce(new Vector2(horizontalMovement * moveForce * speedMultiplier, 0f));
 
-        if (Mathf.Abs(rigidbody2d.velocity.x) > maxSpeed)
+        if (Mathf.Abs(motor.velocity.x) > maxSpeed)
         {
             print("Max speed reached");
-            rigidbody2d.velocity = new Vector2(Mathf.Sign(rigidbody2d.velocity.x) * maxSpeed, rigidbody2d.velocity.y);
+            motor.velocity = new Vector2(Mathf.Sign(motor.velocity.x) * maxSpeed, motor.velocity.y);
         }
 
         direction.Face(horizontalMovement > 0f ? FacingDirection.Right : FacingDirection.Left);
@@ -130,7 +130,7 @@ public class PlayerMovementController : MonoBehaviour
 
             if(e.status.isCrouching)
             {
-                rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
+                motor.velocity = new Vector2(0f, motor.velocity.y);
             }
         }
     }
