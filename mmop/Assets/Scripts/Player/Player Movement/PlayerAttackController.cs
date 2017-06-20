@@ -1,21 +1,31 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerAttackType
+{
+    Primary = 0,
+    Secondary,
+    None = 100
+}
+
 public interface AttackStatus
 {
-    bool isAttackingPrimary { get; }
-    bool isAttackingSecondary { get; }
+    PlayerAttackType attackType { get; }
 }
 
 [RequireComponent(typeof(PlayerControls), typeof(EventController))]
 public class PlayerAttackController : MonoBehaviour, AttackStatus
 {
-    public bool isAttackingPrimary { get; private set; }
-    public bool isAttackingSecondary { get; private set; }
+    public PlayerAttackType attackType { get; private set; }
+
+    private delegate bool attackButtonHeldDelegate();
+    private static Dictionary<PlayerAttackType, attackButtonHeldDelegate> attackLookUp = new Dictionary<PlayerAttackType, attackButtonHeldDelegate>();
 
     private PlayerControls playerControls;
     private EventController eventController;
+    private PlayerAttackEvent attackEvent;
 
     void Awake()
     {
@@ -25,26 +35,43 @@ public class PlayerAttackController : MonoBehaviour, AttackStatus
 
     void Start()
     {
-        isAttackingPrimary = false;
-        isAttackingSecondary = false;
+        attackType = PlayerAttackType.None;
+        attackEvent = new PlayerAttackEvent(this);
+
+        if(attackLookUp.Count == 0)
+        {
+            attackLookUp.Add(PlayerAttackType.Primary, playerControls.IsPrimaryAttackButtonHeld);
+            attackLookUp.Add(PlayerAttackType.Secondary, playerControls.IsSecondaryAttackButtonHeld);
+        }
     }
 
     void Update()
     {
-        bool shouldAttackPrimary = playerControls.IsPrimaryAttackButtonHeld();
+        bool attackRegistered = false;
 
-        if (shouldAttackPrimary != isAttackingPrimary)
+        foreach(var attackCheck in attackLookUp)
         {
-            isAttackingPrimary = shouldAttackPrimary;
-            eventController.Raise(new PlayerAttackEvent(this));
+            if(attackCheck.Value())
+            {
+                RegisterAttack(attackCheck.Key);
+                attackRegistered = true;
+                break;
+            }
         }
 
-        bool shouldAttackSecondary = playerControls.IsSecondaryAttackButtonHeld();
-
-        if(shouldAttackSecondary != isAttackingSecondary)
+        if(!attackRegistered)
         {
-            isAttackingSecondary = shouldAttackSecondary;
-            eventController.Raise(new PlayerAttackEvent(this));
+            RegisterAttack(PlayerAttackType.None);
+
+        }
+    }
+
+    private void RegisterAttack(PlayerAttackType attackTypeToCheck)
+    {
+        if(attackType != attackTypeToCheck)
+        {
+            attackType = attackTypeToCheck;
+            eventController.Raise(attackEvent);
         }
     }
 }

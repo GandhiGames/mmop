@@ -58,7 +58,7 @@ public class PlayerTeleportController : MonoBehaviour, MovementAction
                 }
                 else
                 {
-                    //TODO(robert): calculate size of player and move back from wall to prevent clipping when teleporting.
+                    //TODO(robert): calculate size of player sprite and move back from wall to prevent clipping when teleporting.
                     if (canTeleportThroughWalls)
                     {
                         if (!Physics2D.OverlapPoint(targetPos))

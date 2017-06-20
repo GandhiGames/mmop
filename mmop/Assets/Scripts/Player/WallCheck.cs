@@ -7,6 +7,7 @@ public interface WallStatus
     bool isTouchingWall { get; }
 }
 
+//TODO: turn this into event rather than polling.
 public class WallCheck : MonoBehaviour, WallStatus
 {
     public Transform[] forwardTransforms;

@@ -135,9 +135,12 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
+    //TODO: player should still be able to move when attacking in air.
+    // should be player always be able to move while attacking? Possibly
+    // reduce speed while attacking.
     private void PlayerAttackStatusChanged(PlayerAttackEvent e)
     {
-        UpdateMovementStatus(!e.status.isAttackingPrimary && !e.status.isAttackingSecondary);
+        //UpdateMovementStatus(!e.status.isAttackingPrimary && !e.status.isAttackingSecondary);
     }
 
     private void PlayerRunStatusChanged(PlayerRunEvent e)

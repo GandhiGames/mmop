@@ -18,9 +18,12 @@ public class PlayerCrouchController : MonoBehaviour, CrouchStatus
     private PlayerControls playerControls;
     private EventController eventController;
     private GroundStatus groundStatus;
+
+    //TODO: generalise to movement controller interface.
     private Rigidbody2D rigidbody2d;
     private PlayerCrouchEvent crouchEvent;
     private bool previousCrouchStatus;
+    private bool shouldAddDownwardForce = true;
 
     void Awake()
     {
@@ -39,7 +42,17 @@ public class PlayerCrouchController : MonoBehaviour, CrouchStatus
         previousCrouchStatus = groundStatus.isGrounded;
     }
 
-    // should be able to pass through traversable platform and still move in air.
+    void OnEnable()
+    {
+        eventController.AddListener<PlayerAttackEvent>(OnPlayerAttackStatusChanged);
+    }
+
+    void OnDisable()
+    {
+        eventController.RemoveListener<PlayerAttackEvent>(OnPlayerAttackStatusChanged);
+    }
+
+    //TODO: should be able to pass through traversable platform while crouch attacking.
     void Update()
     {
         bool shouldCrouch = playerControls.IsCrouchButtonHeld();
@@ -50,18 +63,23 @@ public class PlayerCrouchController : MonoBehaviour, CrouchStatus
             previousCrouchStatus = groundStatus.isGrounded;
             eventController.Raise(crouchEvent);
         }
-        else if(isCrouching && previousCrouchStatus != groundStatus.isGrounded)
+        else if (isCrouching && previousCrouchStatus != groundStatus.isGrounded)
         {
-            if((groundStatus.isGrounded && !groundStatus.ground.CompareTag("Platform")) || !groundStatus.isGrounded)
+            if ((groundStatus.isGrounded && !groundStatus.ground.CompareTag("Platform")) || !groundStatus.isGrounded)
             {
                 previousCrouchStatus = groundStatus.isGrounded;
                 eventController.Raise(crouchEvent);
             }
         }
 
-        if(isCrouching && !groundStatus.isGrounded)
-        { 
+        if (isCrouching && shouldAddDownwardForce && !groundStatus.isGrounded)
+        {
             rigidbody2d.AddForce(Vector2.down * downwardForceInAir);
         }
+    }
+
+    private void OnPlayerAttackStatusChanged(PlayerAttackEvent e)
+    {
+        shouldAddDownwardForce = e.status.attackType != PlayerAttackType.Primary;
     }
 }

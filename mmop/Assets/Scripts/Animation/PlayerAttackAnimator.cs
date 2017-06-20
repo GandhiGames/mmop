@@ -26,7 +26,7 @@ public class PlayerAttackAnimator : MonoBehaviour
 
     private void AnimatePrimaryAttack(PlayerAttackEvent e)
     {
-        animator.SetBool("Primary Attack", e.status.isAttackingPrimary);
-        animator.SetBool("Secondary Attack", e.status.isAttackingSecondary);
+        animator.SetBool("Primary Attack", e.status.attackType == PlayerAttackType.Primary);
+        animator.SetBool("Secondary Attack", e.status.attackType == PlayerAttackType.Secondary);
     }
 }

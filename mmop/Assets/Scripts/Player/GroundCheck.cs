@@ -9,6 +9,7 @@ public interface GroundStatus
     GameObject ground { get; }
 }
 
+//TODO: turn this into event rather than polling.
 [RequireComponent(typeof(Rigidbody2D))]
 public class GroundCheck : MonoBehaviour, GroundStatus
 {
@@ -22,20 +23,26 @@ public class GroundCheck : MonoBehaviour, GroundStatus
 
     private Rigidbody2D rigidbody2d;
 
+    //TODO: should ground check be aware of animator? update this when moved over to event system.
+    private Animator animator;
+
     void Awake()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();    
+        rigidbody2d = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        //TODO(robert): what if character is not using rigidbody? Generalise based
+        //TODO: what if character is not using rigidbody? Generalise based
         //on jumping system.
         if (rigidbody2d.velocity.y > 0f)
         {
             isGrounded = false;
             isAlmostGrounded = false;
             ground = null;
+
+            animator.SetBool("grounded", isGrounded);
 
             return;
         }
@@ -53,6 +60,8 @@ public class GroundCheck : MonoBehaviour, GroundStatus
                     isAlmostGrounded = true;
                     isGrounded = false;
                     ground = almostGroundHit.collider.gameObject;
+
+                    animator.SetBool("grounded", isGrounded);
 
                     return;
                 }
@@ -83,5 +92,7 @@ public class GroundCheck : MonoBehaviour, GroundStatus
             isGrounded = false;
             ground = null;
         }
+
+        animator.SetBool("grounded", isGrounded);
     }
 }

@@ -1,3 +1,9 @@
 look into 2d visual effects
-create battlemode camera (two players, locked onto level bounds, zooms out as players mvoe further apart)
-animate grapple hook 
+create battlemode camera (two players, locked onto level bounds, zooms out as players move further apart)
+
+sword attack directions
+teleport, teleports you directly in front of player/enemy?
+
+remove/complete TODOs
+
+tidy (set order) scripts on player gameobject

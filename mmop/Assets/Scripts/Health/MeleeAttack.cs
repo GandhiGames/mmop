@@ -15,13 +15,12 @@ public class MeleeAttack : MonoBehaviour
     }
 
     public void PerformMeleeAttack()
-    {
-
-
+    { 
         var hit = Physics2D.Linecast(transform.position, hitTarget.position, hitMask);
 
         if(hit.collider != null)
         {
+            print("hit: " + hit.collider.gameObject.name);
             var damageables = hit.collider.GetComponents<Damageable>();
 
             if (damageables.Length > 0)
@@ -33,6 +32,9 @@ public class MeleeAttack : MonoBehaviour
                     d.Damage(damage, dir);
                 }
             }
+
+            //TODO: add knockback effect for hitting top of player in air.
+            //TODO: when player hits ground whilst in downwards hit, animation should be set to idle.
         }
     }
 }
