@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Animator), typeof(EventController))]
 public class PlayerAttackAnimator : MonoBehaviour
 {
+    private static readonly int PRIMARY_ATTACK_HASH = Animator.StringToHash("Primary Attack");
+    private static readonly int SECONDARY_ATTACK_HASH = Animator.StringToHash("Secondary Attack");
+
     private Animator animator;
     private EventController eventController;
 
@@ -26,7 +29,7 @@ public class PlayerAttackAnimator : MonoBehaviour
 
     private void AnimatePrimaryAttack(PlayerAttackEvent e)
     {
-        animator.SetBool("Primary Attack", e.status.attackType == PlayerAttackType.Primary);
-        animator.SetBool("Secondary Attack", e.status.attackType == PlayerAttackType.Secondary);
+        animator.SetBool(PRIMARY_ATTACK_HASH, e.status.attackType == PlayerAttackType.Primary);
+        animator.SetBool(SECONDARY_ATTACK_HASH, e.status.attackType == PlayerAttackType.Secondary);
     }
 }

@@ -7,7 +7,7 @@ public interface CrouchStatus
     bool isCrouching { get; }
 }
 
-[RequireComponent(typeof(PlayerControls), typeof(EventController), typeof(GroundStatus))]
+[RequireComponent(typeof(PlayerControls), typeof(EventController))]
 [RequireComponent(typeof(PlayerMotor))]
 public class PlayerCrouchController : MonoBehaviour, CrouchStatus
 {
@@ -17,17 +17,14 @@ public class PlayerCrouchController : MonoBehaviour, CrouchStatus
 
     private PlayerControls playerControls;
     private EventController eventController;
-    private GroundStatus groundStatus;
     private PlayerMotor motor;
     private PlayerCrouchEvent crouchEvent;
-    private bool previousCrouchStatus;
-    private bool shouldAddDownwardForce = true;
+    private bool shouldAddDownwardForce = false;
 
     void Awake()
     {
         playerControls = GetComponent<PlayerControls>();
         eventController = GetComponent<EventController>();
-        groundStatus = GetComponent<GroundStatus>();
         motor = GetComponent<PlayerMotor>();
     }
 
@@ -36,18 +33,18 @@ public class PlayerCrouchController : MonoBehaviour, CrouchStatus
         isCrouching = false;
 
         crouchEvent = new PlayerCrouchEvent(this);
-
-        previousCrouchStatus = groundStatus.isGrounded;
     }
 
     void OnEnable()
     {
-        eventController.AddListener<PlayerAttackEvent>(OnPlayerAttackStatusChanged);
+        eventController.AddListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
+        eventController.AddListener<PlayerAttackEvent>(OnAttackStatusChanged);
     }
 
     void OnDisable()
     {
-        eventController.RemoveListener<PlayerAttackEvent>(OnPlayerAttackStatusChanged);
+        eventController.RemoveListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
+        eventController.RemoveListener<PlayerAttackEvent>(OnAttackStatusChanged);
     }
 
     //TODO: should be able to pass through traversable platform while crouch attacking.
@@ -57,26 +54,47 @@ public class PlayerCrouchController : MonoBehaviour, CrouchStatus
 
         if (shouldCrouch != isCrouching)
         {
+            // Because our crouch status has changed we need to raise a new event,
+            // letting anyone interested know.
             isCrouching = shouldCrouch;
-            previousCrouchStatus = groundStatus.isGrounded;
             eventController.Raise(crouchEvent);
         }
-        else if (isCrouching && previousCrouchStatus != groundStatus.isGrounded)
-        {
-            if ((groundStatus.isGrounded && !groundStatus.ground.CompareTag("Platform")) || !groundStatus.isGrounded)
-            {
-                previousCrouchStatus = groundStatus.isGrounded;
-                eventController.Raise(crouchEvent);
-            }
-        }
+    }
 
-        if (isCrouching && shouldAddDownwardForce && !groundStatus.isGrounded)
+    private void FixedUpdate()
+    {
+        // If we crouch in the air we want to move the player downwards quicker.
+        if(isCrouching && shouldAddDownwardForce)
         {
             motor.AddForce(Vector2.down * downwardForceInAir);
         }
     }
 
-    private void OnPlayerAttackStatusChanged(PlayerAttackEvent e)
+    
+    private void OnGroundStatusChanged(PlayerGroundStatusChangeEvent e)
+    {
+        // If we set shouldAddDownwardForce to true last event then we know
+        // we were in the air and vise versa. This can be used as an indication
+        // of our previous ground status.
+        bool previousGrounded = !shouldAddDownwardForce;
+        bool grounded = e.groundStatus == GroundStatus.Grounded;
+
+        shouldAddDownwardForce = !grounded;
+
+        // If we are crouching and previously we were not touching 
+        // the ground but now we are
+        if (isCrouching && grounded && !previousGrounded)
+        {
+            if (!e.ground.CompareTag("Platform"))
+            {
+                // Raise event to let other classes know that while we are still crouching,
+                // we have moved from in air to ground.
+                eventController.Raise(crouchEvent);
+            }
+        }
+    }
+
+    private void OnAttackStatusChanged(PlayerAttackEvent e)
     {
         shouldAddDownwardForce = e.status.attackType != PlayerAttackType.Primary;
     }

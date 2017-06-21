@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Animator), typeof(EventController))]
 public class PlayerCrouchAnimator : MonoBehaviour
 {
+    private static readonly int CROUCH_HASH = Animator.StringToHash("Crouching");
+
     private Animator animator;
     private EventController eventController;
 
@@ -26,6 +28,6 @@ public class PlayerCrouchAnimator : MonoBehaviour
 
     private void AnimateCrouch(PlayerCrouchEvent e)
     {
-        animator.SetBool("Crouching", e.status.isCrouching);
+        animator.SetBool(CROUCH_HASH, e.status.isCrouching);
     }
 }

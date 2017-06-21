@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO(robert): look into why character can sometimes jump an additional jump.
 [RequireComponent(typeof(PlayerMotor), typeof(EventController))]
 public class PlayerJumpController : MonoBehaviour
 {
@@ -12,21 +11,20 @@ public class PlayerJumpController : MonoBehaviour
 
     private PlayerMotor motor;
     private PlayerControls playerControls;
-    private GroundStatus groundStatus;
     private bool jump = false;
     private int jumpIndex;
     private float jumpTime = 0f;
-    private bool highJumping = false;
+    private bool jumpExtension = false;
     private PlayerJumpEvent jumpEvent;
     private float horizontalForce = 0f;
     private EventController eventController;
     private bool queuedJump = false;
+    private GroundStatus groundStatus;
 
     void Awake()
     {
         motor = GetComponent<PlayerMotor>();
         playerControls = GetComponent<PlayerControls>();
-        groundStatus = GetComponent<GroundStatus>();
         eventController = GetComponent<EventController>();
     }
 
@@ -35,75 +33,91 @@ public class PlayerJumpController : MonoBehaviour
         jumpIndex = numberOfJumps;
 
         jumpEvent = new PlayerJumpEvent();
+
+        groundStatus = GroundStatus.None;
     }
 
     void OnEnable()
     {
+        eventController.AddListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
         eventController.AddListener<WallJumpEvent>(OnWallJumpRequested);    
     }
 
     void OnDisable()
     {
+        eventController.RemoveListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
         eventController.RemoveListener<WallJumpEvent>(OnWallJumpRequested);
     }
 
+    //TODO: clamp max y velocity.
     void Update()
     {
-        if(queuedJump && groundStatus.isGrounded &&
+        // If we have queued a jump when we were almost grounded,
+        // and we are now grounded and still requesting to jump.
+        if (queuedJump && groundStatus == GroundStatus.Grounded &&
             playerControls.IsJumpButtonHeld())
         {
             print("Queued jump");
             jumpTime = 0f;
             jump = true;
-            highJumping = false;
+            jumpExtension = false;
         }
 
-        if(queuedJump)
+        // We are still waiting on the queued jump so no need to go any further.
+        if (queuedJump && playerControls.IsJumpButtonHeld())
         {
             return;
         }
 
-        if(groundStatus.isAlmostGrounded && playerControls.IsJumpButtonPressed())
+        // This gives some wiggle room for when a player can first attempt a jump.
+        // It allows the player to be able to press the jump button slightly before the
+        // characters has hit the ground and to queue a jump for when contact with the
+        // ground is made. It makes the jump feel more reactive.
+        if (groundStatus == GroundStatus.AlmostGrounded &&
+            playerControls.IsJumpButtonPressed())
         {
             queuedJump = true;
 
             return;
         }
 
-        if(groundStatus.isGrounded)
-        {
-            jumpIndex = numberOfJumps;
-            highJumping = false;
-            jumpTime = 0f;
-        }
 
-        if(playerControls.IsJumpButtonPressed())
+        if (playerControls.IsJumpButtonPressed())
         {
+            // It does not matter whether we are grounded or not,
+            // as long as the jump index is greater than 0 we want to jump.
             if (jumpIndex > 0)
             {
                 jumpTime = 0f;
                 jump = true;
             }
 
-            highJumping = false;
+            // To signify we've started a new jump we need to reset this.
+            jumpExtension = false;
         }
         else if (playerControls.IsJumpButtonHeld())
         {
-            if (!groundStatus.isGrounded)
+            // Allows for a variable height jump by continually adding force
+            // while the player holds down the jump button.
+            if (groundStatus != GroundStatus.Grounded)
             {
                 jumpTime += Time.deltaTime;
 
                 if (jumpTime <= maxJumpTime)
                 {
                     jump = true;
-                    highJumping = true;
+                    jumpExtension = true;
                 }
             }
         }
-        else if(playerControls.IsJumpButtonReleased())
+        else if (playerControls.IsJumpButtonReleased())
         {
-            if(!groundStatus.isGrounded)
+            if (groundStatus != GroundStatus.Grounded)
             {
+
+                // Disables any further input to be registered as an extended
+                // jump for the current jump index. Any further jump attempts will 
+                // only be successful if the player has another jump or touches the ground.
                 jumpTime = maxJumpTime;
             }
         }
@@ -114,12 +128,19 @@ public class PlayerJumpController : MonoBehaviour
     {
         if(jump)
         {
+            // Reset current velocity to start a new jump.
             motor.velocity = new Vector2(motor.velocity.x, 0f);
+
+            // Horizontal force will be added if the player is wall jumping.
             motor.AddForce(new Vector2(horizontalForce, jumpForce));
 
+            // Horizontal force is reset after each jump so if the player attempts
+            // any further non wall jumps, they will not be moved sidways.
             horizontalForce = 0f;
 
-            if (!highJumping)
+            // We only raise a jump event and decrement the jump index at the start of a new jump.
+            // So we need to check we are not extending the current jump.
+            if (!jumpExtension)
             { 
                 eventController.Raise(jumpEvent);
                 jumpIndex--;
@@ -130,14 +151,37 @@ public class PlayerJumpController : MonoBehaviour
         }
     }
 
+    private void OnGroundStatusChanged(PlayerGroundStatusChangeEvent e)
+    {
+        groundStatus = e.groundStatus;
+
+        if (groundStatus == GroundStatus.Grounded)
+        {
+            // If we are grounded we want to reset jump variables to default.
+            ResetJump();
+        }
+    }
+
     private void OnWallJumpRequested(WallJumpEvent e)
     {
+        // Add a horizontal force dependent on facing direction.
         horizontalForce = e.status.directionToJump == FacingDirection.Right ? 
             e.status.horizontalForce : -e.status.horizontalForce;
         
         jump = true;
+
+        ResetJump();
+    }
+
+    /// <summary>
+    /// Resets jump attributes to their default values.
+    /// This will ensure that the next jump performed is registered
+    /// as the first jump.
+    /// </summary>
+    private void ResetJump()
+    {
         jumpIndex = numberOfJumps;
-        highJumping = false;
+        jumpExtension = false;
         jumpTime = 0f;
     }
 }

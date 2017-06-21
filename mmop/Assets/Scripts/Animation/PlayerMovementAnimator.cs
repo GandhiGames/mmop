@@ -3,6 +3,8 @@
 [RequireComponent(typeof(Animator))]
 public class PlayerMovementAnimator : MonoBehaviour
 {
+    private static readonly int SPEED_HASH = Animator.StringToHash("Speed");
+
     private Animator animator;
     private float prevHorVel;
 
@@ -21,6 +23,6 @@ public class PlayerMovementAnimator : MonoBehaviour
         var velocity = (transform.position.x - prevHorVel) / Time.deltaTime;
         prevHorVel = transform.position.x;
 
-        animator.SetFloat("Speed", Mathf.Abs(velocity));
+        animator.SetFloat(SPEED_HASH, Mathf.Abs(velocity));
     }
 }

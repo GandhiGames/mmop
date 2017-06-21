@@ -7,30 +7,27 @@ public interface WallClingStatus
     bool isClingingToWall { get; }
 }
 
-//TODO(robert): what if player is not using rigidbody for physics simulation?
-//remove reference to rigidbody.
-[RequireComponent(typeof(WallStatus), typeof(PlayerControls),
+[RequireComponent(typeof(PlayerControls),
     typeof(PlayerDirection))]
-[RequireComponent(typeof(PlayerMotor), typeof(EventController), typeof(GroundStatus))]
+[RequireComponent(typeof(PlayerMotor), typeof(EventController))]
 public class PlayerWallCling : MonoBehaviour, WallClingStatus
 {
     [Range(0f, 1f)]
     public float velocityDampener = 0.05f;
+    public float downwardsForceOnclingRelease = 20f;
 
     public bool isClingingToWall { get; private set; }
 
-    private WallStatus wallStatus;
-    private GroundStatus groundStatus;
     private PlayerControls playerControls;
     private PlayerDirection facing;
     private PlayerMotor motor;
     private PlayerWallClingEvent clingEvent;
     private EventController events;
+    private bool grounded = false;
+    private bool touchingWall = false;
 
     void Awake()
     {
-        wallStatus = GetComponent<WallStatus>();
-        groundStatus = GetComponent<GroundStatus>();
         playerControls = GetComponent<PlayerControls>();
         facing = GetComponent<PlayerDirection>();
         motor = GetComponent<PlayerMotor>();
@@ -42,42 +39,39 @@ public class PlayerWallCling : MonoBehaviour, WallClingStatus
         clingEvent = new PlayerWallClingEvent(this);
     }
 
+    void OnEnable()
+    {
+        events.AddListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
+        events.AddListener<PlayerWallStatusEventChangeEvent>(OnWallStatusChanged);
+    }
 
-    // Update is called once per frame
+    void OnDisable()
+    {
+        events.RemoveListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
+        events.RemoveListener<PlayerWallStatusEventChangeEvent>(OnWallStatusChanged);
+    }
+
     void Update()
     {
-        if(groundStatus.isGrounded)
+        if (grounded || !touchingWall)
         {
-            if(isClingingToWall)
-            {
-                isClingingToWall = false;
-
-                events.Raise(clingEvent);
-            }
-
             return;
         }
 
-        if (wallStatus.isTouchingWall)
+        if (playerControls.IsNoMovementControlPressed())
         {
-            if(isClingingToWall && playerControls.IsNoMovementControlPressed())
+            // If the player was clinging to a wall but has released all movement controls.
+            if (isClingingToWall)
             {
                 isClingingToWall = false;
+
                 events.Raise(clingEvent);
 
-                if(motor.velocity.y < 0f)
-                {
-                    motor.velocity = new Vector2(motor.velocity.x,
-                        motor.velocity.y * (2f + velocityDampener));
-                }
-                return;
+                motor.AddForce(Vector2.down * downwardsForceOnclingRelease);
             }
-
-            if(playerControls.IsNoMovementControlPressed())
-            {
-                return;
-            }
-
+        }
+        else
+        {
             var move = playerControls.GetMovement();
 
             if ((facing.currentDirection == FacingDirection.Left && move < 0f) ||
@@ -94,11 +88,31 @@ public class PlayerWallCling : MonoBehaviour, WallClingStatus
                 }
             }
         }
-        else if (isClingingToWall)
+
+    }
+
+    private void OnGroundStatusChanged(PlayerGroundStatusChangeEvent e)
+    {
+        grounded = e.groundStatus == GroundStatus.Grounded;
+
+        if (grounded && isClingingToWall)
         {
             isClingingToWall = false;
-            events.Raise(clingEvent);
 
+            events.Raise(clingEvent);
         }
+    }
+
+    private void OnWallStatusChanged(PlayerWallStatusEventChangeEvent e)
+    {
+        touchingWall = e.isTouchingWall;
+
+        if (!touchingWall && isClingingToWall)
+        {
+            isClingingToWall = false;
+
+            events.Raise(clingEvent);
+        }
+
     }
 }

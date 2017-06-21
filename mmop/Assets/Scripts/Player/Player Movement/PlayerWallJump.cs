@@ -8,25 +8,23 @@ public interface WallJumpStatus
     float horizontalForce { get; }
 }
 
-[RequireComponent(typeof(GroundStatus), typeof(PlayerControls), typeof(EventController))]
+//TODO: convert to using wall status.
+[RequireComponent(typeof(PlayerControls), typeof(EventController))]
 public class PlayerWallJump : MonoBehaviour, WallJumpStatus
 {
     public Transform forward;
-
     public LayerMask wallJumpPlayer;
 
     public float wallJumpHorizontalForce = 75f;
     public float horizontalForce { get { return wallJumpHorizontalForce; } }
     public FacingDirection directionToJump { get; private set; }
 
-    private GroundStatus groundStatus;
     private PlayerControls playerControls;
     private WallJumpEvent jumpEvent;
     private EventController eventController;
 
     void Awake()
     {
-        groundStatus = GetComponent<GroundStatus>();
         playerControls = GetComponent<PlayerControls>();
         eventController = GetComponent<EventController>();
     }
@@ -36,13 +34,9 @@ public class PlayerWallJump : MonoBehaviour, WallJumpStatus
         jumpEvent = new WallJumpEvent(this);    
     }
 
+    //TODO: do we need to ignore wall jumps when player grounded?
     void Update()
     {
-        if(groundStatus.isGrounded)
-        {
-            return;
-        }
-
         if (playerControls.IsJumpButtonPressed())
         {
             RaycastHit2D hit = Physics2D.Linecast(transform.position, forward.position, wallJumpPlayer);

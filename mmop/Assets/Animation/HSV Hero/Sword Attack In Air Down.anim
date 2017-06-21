@@ -19,20 +19,20 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: {x: 0.025, y: -0.21, z: 0}
+        value: {x: 0.026, y: -0.197, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       - serializedVersion: 2
-        time: 0.25
-        value: {x: 0.025, y: -0.21, z: 0}
+        time: 0.125
+        value: {x: 0.026, y: -0.197, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Melee Hit Target
+    path: Attack Target
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
@@ -60,7 +60,7 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
-      path: 1403304492
+      path: 4012788065
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -95,13 +95,13 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0.025
+        value: 0.026
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 0.25
-        value: 0.025
+        time: 0.125
+        value: 0.026
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -109,7 +109,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Melee Hit Target
+    path: Attack Target
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -117,13 +117,13 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: -0.21
+        value: -0.197
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 0.25
-        value: -0.21
+        time: 0.125
+        value: -0.197
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -131,7 +131,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Melee Hit Target
+    path: Attack Target
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -144,7 +144,7 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 0.25
+        time: 0.125
         value: 0
         inSlope: 0
         outSlope: 0
@@ -153,7 +153,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Melee Hit Target
+    path: Attack Target
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves: []
@@ -161,7 +161,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
-  - time: 0
+  - time: 0.125
     functionName: PerformMeleeAttack
     data: 
     objectReferenceParameter: {fileID: 0}

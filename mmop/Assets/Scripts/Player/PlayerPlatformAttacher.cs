@@ -2,33 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(GroundStatus))]
+[RequireComponent(typeof(EventController))]
 public class PlayerPlatformAttacher : MonoBehaviour
 {
-    private GroundStatus groundStatus;
-    private GameObject platform;
+    private EventController events;
 
     void Awake()
     {
-        groundStatus = GetComponent<GroundStatus>(); 
+        events = GetComponent<EventController>();
     }
 
-    void Update()
+    void OnEnable()
     {
-        if(groundStatus.isGrounded && groundStatus.ground.CompareTag("Platform"))
+        events.AddListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
+    }
+
+    void OnDisable()
+    {
+        events.RemoveListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
+    }
+
+    private void OnGroundStatusChanged(PlayerGroundStatusChangeEvent e)
+    {
+        // If we are grounded on a platform.
+        if (e.groundStatus == GroundStatus.Grounded &&
+            e.ground.CompareTag("Platform"))
         {
-            if (groundStatus.ground.GetComponent<MovingPlatform>() != null)
+            // If the platform is a moving platform.
+            if (e.ground.GetComponent<MovingPlatform>() != null)
             {
-                if (platform == null || groundStatus.ground.GetInstanceID() != platform.GetInstanceID())
-                {
-                    platform = groundStatus.ground;
-                    transform.SetParent(platform.transform);
-                }
+                // We now know we are standing on a moving platform,
+                // so we set it to be our parent, ensuring as the platform moves
+                // in the world so do we.
+                transform.SetParent(e.ground.transform);
             }
         }
         else
         {
-            platform = null;
+            // We are not standing on a platform so we want to remove any parents we have.
             transform.SetParent(null);
         }
     }

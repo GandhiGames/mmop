@@ -4,7 +4,7 @@ using UnityEngine;
 
 //TODO: look into better movement for shooting/retracting (rather that a linear speed).
 [RequireComponent(typeof(DistanceJoint2D), typeof(PlayerControls))]
-public class PlayerGrapplingHook : MonoBehaviour, MovementAction
+public class PlayerGrapplingHook : MovementAction
 {
     public float pullDistancePerSecond = 4;
     public float hookLineWidth = 0.05f;
@@ -26,17 +26,12 @@ public class PlayerGrapplingHook : MonoBehaviour, MovementAction
     private bool isRetracting = false;
     private Vector2 direction;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         grapplingHook = GetComponent<DistanceJoint2D>();
         controls = GetComponent<PlayerControls>();
-
-        var otherMoveActions = GetComponents<MovementAction>();
-
-        if (otherMoveActions.Length > 1)
-        {
-            Debug.LogWarning("Only one movement action should be attached to a character");
-        }
     }
 
     void Start()

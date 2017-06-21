@@ -31,29 +31,35 @@ public class PlayerMovementController : MonoBehaviour
     private PlayerDirection direction;
     private bool pausingMovement = false;
     private EventController eventController;
+    private float moveForce;
 
     void Awake()
     {
         motor = GetComponent<PlayerMotor>();
         playerControls = GetComponent<PlayerControls>();
-        groundStatus = GetComponent<GroundStatus>();
         direction = GetComponent<PlayerDirection>();
         eventController = GetComponent<EventController>();
     }
 
+    void Start()
+    {
+        groundStatus = GroundStatus.None;
+        moveForce = moveForceOnGround;
+    }
+
     void OnEnable()
     {
-        eventController.AddListener<PlayerCrouchEvent>(PlayerCrouchStatusChanged);
-        eventController.AddListener<PlayerAttackEvent>(PlayerAttackStatusChanged);
-        eventController.AddListener<PlayerRunEvent>(PlayerRunStatusChanged);
+        eventController.AddListener<PlayerCrouchEvent>(OnCrouchStatusChanged);
+        eventController.AddListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
+        eventController.AddListener<PlayerRunEvent>(OnRunStatusChanged);
         eventController.AddListener<WallJumpEvent>(OnPlayerWallJumped);
     }
 
     void OnDisable()
     {
-        eventController.RemoveListener<PlayerCrouchEvent>(PlayerCrouchStatusChanged);
-        eventController.RemoveListener<PlayerAttackEvent>(PlayerAttackStatusChanged);
-        eventController.RemoveListener<PlayerRunEvent>(PlayerRunStatusChanged);
+        eventController.RemoveListener<PlayerCrouchEvent>(OnCrouchStatusChanged);
+        eventController.RemoveListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
+        eventController.RemoveListener<PlayerRunEvent>(OnRunStatusChanged);
         eventController.RemoveListener<WallJumpEvent>(OnPlayerWallJumped);
     }
 
@@ -68,12 +74,12 @@ public class PlayerMovementController : MonoBehaviour
 
         if (playerControls.IsNoMovementControlPressed())
         {
-            if (instantStopGround && groundStatus.isGrounded)
+            if (instantStopGround && groundStatus == GroundStatus.Grounded)
             {
                 motor.velocity = new Vector2(0f, motor.velocity.y);
                 horizontalMovement = 0f;
             }
-            else if (instantStopAir && !groundStatus.isGrounded)
+            else if (instantStopAir && groundStatus != GroundStatus.Grounded)
             {
                 motor.velocity = new Vector2(0f, motor.velocity.y);
                 horizontalMovement = 0f;
@@ -81,12 +87,14 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
-    //TODO: max speed check is not performed if there is no input.
-    // Should check y velocity as well.
     void FixedUpdate()
     {
         if (horizontalMovement == 0f)
         {
+            // Even if there is no input we want to clamp the players max speed to 
+            // limit force applied by external forces.
+            ClampMaxSpeed();
+
             return;
         }
 
@@ -95,55 +103,67 @@ public class PlayerMovementController : MonoBehaviour
             return;
         }
 
-        float moveForce = groundStatus.isGrounded ? moveForceOnGround : moveForceInAir;
-
+        // If we were facing in one direction and now we are facing the opposite direction.
         if (horizontalMovement < 0f && direction.currentDirection == FacingDirection.Right
             || horizontalMovement > 0f && direction.currentDirection == FacingDirection.Left)
         {
+            // If we are moving at a percentage of our maximum speed.
             if (Mathf.Abs(motor.velocity.x) >= maxSpeed * 0.2f)
             {
-                print("Reactive direction change");
+                // Increase move force when turning directions. This provides
+                // a turn that is quicker than it would have been otherwise, which feels
+                // more reactive to the player.
                 moveForce += moveForce * reactivityPercentage;
             }
         }
 
         motor.velocity = new Vector2(horizontalMovement * moveForce * speedMultiplier, motor.velocity.y);
 
-        //rigidbody2d.AddForce(new Vector2(horizontalMovement * moveForce * speedMultiplier, 0f));
+        ClampMaxSpeed();
 
+        direction.Face(horizontalMovement > 0f ? FacingDirection.Right : FacingDirection.Left);
+    }
+
+    private void ClampMaxSpeed()
+    {
         if (Mathf.Abs(motor.velocity.x) > maxSpeed)
         {
             print("Max speed reached");
             motor.velocity = new Vector2(Mathf.Sign(motor.velocity.x) * maxSpeed, motor.velocity.y);
         }
-
-        direction.Face(horizontalMovement > 0f ? FacingDirection.Right : FacingDirection.Left);
     }
 
-    //TODO: should be able to move whilst crouched and in the air,
-    // and should not be able to move when touch ground.
-    private void PlayerCrouchStatusChanged(PlayerCrouchEvent e)
+    private void OnCrouchStatusChanged(PlayerCrouchEvent e)
     {
-        if (groundStatus.isGrounded)
+        if (groundStatus == GroundStatus.Grounded)
         {
+            // If we are grounded and crouching we do not want the player
+            // to be able to move.
             UpdateMovementStatus(!e.status.isCrouching);
 
-            if(e.status.isCrouching)
+            if (e.status.isCrouching)
             {
                 motor.velocity = new Vector2(0f, motor.velocity.y);
             }
         }
     }
 
-    //TODO: player should still be able to move when attacking in air.
-    // should be player always be able to move while attacking? Possibly
-    // reduce speed while attacking.
-    private void PlayerAttackStatusChanged(PlayerAttackEvent e)
+    private void OnGroundStatusChanged(PlayerGroundStatusChangeEvent e)
     {
-        //UpdateMovementStatus(!e.status.isAttackingPrimary && !e.status.isAttackingSecondary);
+        groundStatus = e.groundStatus;
+
+        moveForce = groundStatus == GroundStatus.Grounded ? moveForceOnGround : moveForceInAir;
+
+        // If the player is not touching the ground we want them to be able to
+        // override anything that says it cannot move.
+        if (groundStatus == GroundStatus.NotGrounded)
+        {
+            UpdateMovementStatus(true);
+        }
+
     }
 
-    private void PlayerRunStatusChanged(PlayerRunEvent e)
+    private void OnRunStatusChanged(PlayerRunEvent e)
     {
         speedMultiplier = e.status.shouldRun ? e.status.runMultiplier : 1f;
     }

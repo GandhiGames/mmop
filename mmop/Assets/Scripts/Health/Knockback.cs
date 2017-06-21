@@ -2,21 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMotor))]
-public class Knockback : MonoBehaviour, Damageable
+[RequireComponent(typeof(PlayerMotor), typeof(EventController))]
+public class Knockback : MonoBehaviour
 {
     public float knockbackForce = 100f;
 
     private PlayerMotor motor;
+    private EventController eventController;
 
     void Awake()
     {
-        motor = GetComponent<PlayerMotor>();    
+        motor = GetComponent<PlayerMotor>();
+        eventController = GetComponent<EventController>();
     }
 
-    public void Damage(float amount, Vector2 dir)
+    void OnEnable()
     {
-        motor.AddForce(dir * knockbackForce);
+        eventController.AddListener<DamageTakenEvent>(OnDamageTaken);
+    }
+
+    void OnDisable()
+    {
+        eventController.RemoveListener<DamageTakenEvent>(OnDamageTaken);
+    }
+
+    private void OnDamageTaken(DamageTakenEvent e)
+    {
+        motor.AddForce(e.direction * knockbackForce);
     }
 
 }

@@ -2,20 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour, Damageable
+[RequireComponent(typeof(EventController))]
+public class Health : MonoBehaviour
 {
     public float hitPoints;
 
     private float currentHitPoints;
+    private EventController eventController;
 
-    void Start()
+    void Awake()
     {
-        currentHitPoints = hitPoints;    
+        eventController = GetComponent<EventController>();    
     }
 
-    public void Damage(float amount, Vector2 dir)
+    void OnEnable()
     {
-        currentHitPoints-=amount;
+        currentHitPoints = hitPoints;
+
+        eventController.AddListener<DamageTakenEvent>(OnDamageTaken);
+    }
+
+    void OnDisable()
+    {
+        eventController.RemoveListener<DamageTakenEvent>(OnDamageTaken);
+    }
+
+    private void OnDamageTaken(DamageTakenEvent e)
+    {
+        currentHitPoints -= e.damage;
 
         if(currentHitPoints <= 0)
         {
@@ -24,7 +38,7 @@ public class Health : MonoBehaviour, Damageable
             OnDeath();
         }
 
-        print("Damage Taken: " + amount + " current health: " + currentHitPoints);
+        print("Damage Taken: " + e.damage + " current health: " + currentHitPoints);
     }
 
     private void OnDeath()

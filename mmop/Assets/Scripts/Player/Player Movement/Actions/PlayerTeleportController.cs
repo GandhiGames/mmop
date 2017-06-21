@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerControls), typeof(PlayerDirection))]
-public class PlayerTeleportController : MonoBehaviour, MovementAction
+public class PlayerTeleportController : MovementAction
 {
     public float teleportDistance = 1f;
     public float timeBetweenTeleports = 1f;
@@ -17,18 +17,11 @@ public class PlayerTeleportController : MonoBehaviour, MovementAction
     private PlayerDirection facing;
     private float waitTime = 0f;
 
-    //TODO(robert): move other action check to super class of all movement actions (create super class)?
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         playerControls = GetComponent<PlayerControls>();
-
-        var otherMoveActions = GetComponents<MovementAction>();
-
-        if (otherMoveActions.Length > 1)
-        {
-            Debug.LogWarning("Only one movement action should be attached to a character");
-        }
-
         facing = GetComponent<PlayerDirection>();
     }
 

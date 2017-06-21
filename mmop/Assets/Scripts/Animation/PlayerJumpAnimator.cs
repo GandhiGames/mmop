@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Animator), typeof(EventController))]
 public class PlayerJumpAnimator : MonoBehaviour
 {
+    private static readonly int JUMP_HASH = Animator.StringToHash("Jump");
+
     private Animator animator;
     private EventController eventController;
 
@@ -26,6 +28,6 @@ public class PlayerJumpAnimator : MonoBehaviour
 
     private void AnimateJump(PlayerJumpEvent e)
     {
-        animator.SetTrigger("Jump");
+        animator.SetTrigger(JUMP_HASH);
     }
 }

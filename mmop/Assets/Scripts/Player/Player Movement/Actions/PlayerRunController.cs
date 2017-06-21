@@ -8,13 +8,8 @@ public interface RunStatus
     float runMultiplier { get; }
 }
 
-public interface MovementAction
-{
-
-}
-
 [RequireComponent(typeof(PlayerControls), typeof(EventController))]
-public class PlayerRunController : MonoBehaviour, RunStatus, MovementAction
+public class PlayerRunController : MovementAction, RunStatus
 {
     public float runMoveMultiplier = 1.4f;
     public float runMultiplier { get { return runMoveMultiplier; } }
@@ -24,16 +19,9 @@ public class PlayerRunController : MonoBehaviour, RunStatus, MovementAction
     private PlayerRunEvent runEvent;
     private EventController eventController;
 
-    void Awake()
+    protected override void Awake()
     {
-        playerControls = GetComponent<PlayerControls>();
-
-        var otherMoveActions = GetComponents<MovementAction>();
-
-        if(otherMoveActions.Length > 1)
-        {
-            Debug.LogWarning("Only one movement action should be attached to a character");
-        }
+        base.Awake();
 
         eventController = GetComponent<EventController>();
     }

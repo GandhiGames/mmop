@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(EventController))]
 public class MeleeAttack : MonoBehaviour
 {
     public float damage = 1f;
     public LayerMask hitMask;
 
     public Transform hitTarget;
+
+    private EventController events;
+
+    void Awake()
+    {
+        events = GetComponent<EventController>();    
+    }
 
     void Start()
     {
@@ -19,22 +27,17 @@ public class MeleeAttack : MonoBehaviour
         var hit = Physics2D.Linecast(transform.position, hitTarget.position, hitMask);
 
         if(hit.collider != null)
-        {
-            print("hit: " + hit.collider.gameObject.name);
-            var damageables = hit.collider.GetComponents<Damageable>();
+        { 
+            var otherController = hit.collider.GetComponent<EventController>();
 
-            if (damageables.Length > 0)
+            if (otherController != null)
             {
                 Vector2 dir = (hitTarget.position - transform.position).normalized;
 
-                foreach (var d in damageables)
-                {
-                    d.Damage(damage, dir);
-                }
-            }
+                otherController.Raise(new DamageTakenEvent(damage, dir));
 
-            //TODO: add knockback effect for hitting top of player in air.
-            //TODO: when player hits ground whilst in downwards hit, animation should be set to idle.
+                events.Raise(new DamageGivenEvent(otherController));
+            }
         }
     }
 }

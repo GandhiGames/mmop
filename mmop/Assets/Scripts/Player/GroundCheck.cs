@@ -2,52 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface GroundStatus
-{
-    bool isGrounded { get; }
-    bool isAlmostGrounded { get; }
-    GameObject ground { get; }
-}
 
-//TODO: turn this into event rather than polling.
-[RequireComponent(typeof(PlayerMotor))]
-public class GroundCheck : MonoBehaviour, GroundStatus
+[RequireComponent(typeof(PlayerMotor), typeof(EventController))]
+public class GroundCheck : MonoBehaviour
 {
     public Transform[] groundTransforms;
     public Transform almostGroundTransform;
     public LayerMask platformLayer;
 
-    public bool isGrounded { get; private set; }
-    public bool isAlmostGrounded { get; private set; }
-    public GameObject ground { get; private set; }
-
+    private GroundStatus previousStatus;
+    private int previousGroundId;
     private PlayerMotor motor;
-
-    //TODO: should ground check be aware of animator? update this when moved over to event system.
-    private Animator animator;
+    private EventController eventController;
 
     void Awake()
     {
         motor = GetComponent<PlayerMotor>();
-        animator = GetComponent<Animator>();
+        eventController = GetComponent<EventController>();
+    }
+
+    void Start()
+    {
+        previousStatus = GroundStatus.None;
+        previousGroundId = Int32.MinValue;
     }
 
     void Update()
     {
-        //TODO: what if character is not using rigidbody? Generalise based
-        //on jumping system.
         if (motor.velocity.y > 0f)
         {
-            isGrounded = false;
-            isAlmostGrounded = false;
-            ground = null;
-
-            animator.SetBool("grounded", isGrounded);
-
+            RegisterState(GroundStatus.NotGrounded);
             return;
         }
- 
-        if(motor.velocity.y < 0f && !isAlmostGrounded)
+
+        if (motor.velocity.y < 0f && previousStatus != GroundStatus.AlmostGrounded)
         {
             RaycastHit2D almostGroundHit = Physics2D.Linecast(transform.position, almostGroundTransform.position, platformLayer);
 
@@ -57,11 +45,7 @@ public class GroundCheck : MonoBehaviour, GroundStatus
 
                 if (hit.collider == null)
                 {
-                    isAlmostGrounded = true;
-                    isGrounded = false;
-                    ground = almostGroundHit.collider.gameObject;
-
-                    animator.SetBool("grounded", isGrounded);
+                    RegisterState(GroundStatus.AlmostGrounded, almostGroundHit.collider.gameObject);
 
                     return;
                 }
@@ -78,21 +62,33 @@ public class GroundCheck : MonoBehaviour, GroundStatus
 
             if (groundHit.collider != null)
             {
-                isAlmostGrounded = false;
-                isGrounded = true;
-                ground = groundHit.collider.gameObject;
+                RegisterState(GroundStatus.Grounded, groundHit.collider.gameObject);
 
-                break;
+                return;
             }
         }
 
-        if(!isGrounded)
+        // If the player is not grounded for reasons than jumping (for example they walked off
+        // a platform, then we end up here. We make sure that we are not almost about
+        // to hit the ground because the only other way we would reach this point is if
+        // we were almost grounded the previous frame and still are this frame.
+        if (previousStatus != GroundStatus.AlmostGrounded)
         {
-            isAlmostGrounded = false;
-            isGrounded = false;
-            ground = null;
+            RegisterState(GroundStatus.NotGrounded);
         }
+    }
 
-        animator.SetBool("grounded", isGrounded);
+    private void RegisterState(GroundStatus status, GameObject ground = null)
+    {
+        int id = ground != null ? ground.GetInstanceID() : previousGroundId;
+
+        // Raise event if either ground status or grounded object changes.
+        if (status != previousStatus || id != previousGroundId)
+        {
+            previousStatus = status;
+            previousGroundId = id;
+
+            eventController.Raise(new PlayerGroundStatusChangeEvent(status, ground));
+        }
     }
 }
