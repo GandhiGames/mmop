@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInput : MonoBehaviour, PlayerControls
+public class KeyboardInput : MonoBehaviour, PlayerControls
 {
-    public string controllerName = "Keyboard";
+    private static readonly string CONTROLLER_NAME = "Keyboard";
 
     private static readonly string JUMP = " Jump";
     private static readonly string CROUCH = " Crouch";
@@ -17,87 +17,87 @@ public class PlayerInput : MonoBehaviour, PlayerControls
 
     public bool IsJumpButtonPressed()
     {
-        return Input.GetButtonDown(controllerName + JUMP);
+        return Input.GetButtonDown(CONTROLLER_NAME + JUMP);
     }
 
     public bool IsJumpButtonHeld()
     {
-        return Input.GetButton(controllerName + JUMP);
+        return Input.GetButton(CONTROLLER_NAME + JUMP);
     }
 
     public bool IsJumpButtonReleased()
     {
-        return Input.GetButtonUp(controllerName + JUMP);
+        return Input.GetButtonUp(CONTROLLER_NAME + JUMP);
     }
 
     public bool IsCrouchButtonPressed()
     {
-        return Input.GetButtonDown(controllerName + CROUCH);
+        return Input.GetButtonDown(CONTROLLER_NAME + CROUCH);
     }
 
     public bool IsCrouchButtonHeld()
     {
-        return Input.GetButton(controllerName + CROUCH);
+        return Input.GetButton(CONTROLLER_NAME + CROUCH);
     }
 
     public bool IsCrouchButtonReleased()
     {
-        return Input.GetButtonUp(controllerName + CROUCH);
+        return Input.GetButtonUp(CONTROLLER_NAME + CROUCH);
     }
 
     public bool IsMovementActionButtonPressed()
     {
-        return Input.GetButtonDown(controllerName + MOVEMENT_ACTION);
+        return Input.GetButtonDown(CONTROLLER_NAME + MOVEMENT_ACTION);
     }
 
     public bool IsMovementActionButtonHeld()
     {
-        return Input.GetButton(controllerName + MOVEMENT_ACTION);
+        return Input.GetButton(CONTROLLER_NAME + MOVEMENT_ACTION);
     }
 
     public bool IsMovementActionButtonReleased()
     {
-        return Input.GetButtonUp(controllerName + MOVEMENT_ACTION);
+        return Input.GetButtonUp(CONTROLLER_NAME + MOVEMENT_ACTION);
     }
 
     public bool IsPrimaryAttackButtonPressed()
     {
-        return Input.GetButtonDown(controllerName + PRIMARY_ATTACK);
+        return Input.GetButtonDown(CONTROLLER_NAME + PRIMARY_ATTACK);
     }
 
     public bool IsPrimaryAttackButtonHeld()
     {
-        return Input.GetButton(controllerName + PRIMARY_ATTACK);
+        return Input.GetButton(CONTROLLER_NAME + PRIMARY_ATTACK);
     }
 
     public bool IsPrimaryAttackButtonReleased()
     {
-        return Input.GetButtonUp(controllerName + PRIMARY_ATTACK);
+        return Input.GetButtonUp(CONTROLLER_NAME + PRIMARY_ATTACK);
     }
 
     public bool IsSecondaryAttackButtonPressed()
     {
-        return Input.GetButtonDown(controllerName + SECONDARY_ATTACK);
+        return Input.GetButtonDown(CONTROLLER_NAME + SECONDARY_ATTACK);
     }
 
     public bool IsSecondaryAttackButtonHeld()
     {
-        return Input.GetButton(controllerName + SECONDARY_ATTACK);
+        return Input.GetButton(CONTROLLER_NAME + SECONDARY_ATTACK);
     }
 
     public bool IsSecondaryAttackButtonReleased()
     {
-        return Input.GetButtonUp(controllerName + SECONDARY_ATTACK);
+        return Input.GetButtonUp(CONTROLLER_NAME + SECONDARY_ATTACK);
     }
 
     public bool IsNoMovementControlPressed()
     {
-        return !Input.GetButton(controllerName + MOVE_LEFT) && !Input.GetButton(controllerName + MOVE_RIGHT);
+        return !Input.GetButton(CONTROLLER_NAME + MOVE_LEFT) && !Input.GetButton(CONTROLLER_NAME + MOVE_RIGHT);
     }
 
     public float GetMovement()
     { 
-        return Input.GetAxis(controllerName + AXIS_HORIZONTAL);
+        return Input.GetAxis(CONTROLLER_NAME + AXIS_HORIZONTAL);
     }
 
     //TODO: lock to 4 or 8 directions?

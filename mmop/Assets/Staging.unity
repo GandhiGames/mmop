@@ -1294,10 +1294,10 @@ GameObject:
   - component: {fileID: 1064109680}
   - component: {fileID: 1064109688}
   - component: {fileID: 1064109689}
-  - component: {fileID: 1064109674}
   - component: {fileID: 1064109690}
   - component: {fileID: 1064109691}
   - component: {fileID: 1064109692}
+  - component: {fileID: 1064109674}
   m_Layer: 0
   m_Name: HSV Hero
   m_TagString: Player
@@ -1425,9 +1425,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642a38245ac3e6a4b927720a45cefe07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveForceOnGround: 3
-  moveForceInAir: 3
-  maxSpeed: 4
+  moveForceOnGround: 2.2
+  moveForceInAir: 1.8
+  maxSpeed: 3
   runForceMultiplier: 1.4
   reactivityPercentage: 0.1
   instantStopGround: 0
@@ -1484,10 +1484,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1064109663}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2d83879597fa8d44b3e7ee4ab862a35, type: 3}
+  m_Script: {fileID: 11500000, guid: e3682fecf8b9d864796bc0e30c9c1c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerName: Keyboard
+  controllerName: Xbox One
 --- !u!114 &1064109675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1567,6 +1567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocityDampener: 0.05
+  downwardsForceOnclingRelease: 20
 --- !u!114 &1064109681
 MonoBehaviour:
   m_ObjectHideFlags: 0
