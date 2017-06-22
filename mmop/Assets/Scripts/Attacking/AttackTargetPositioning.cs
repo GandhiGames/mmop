@@ -28,12 +28,10 @@ public class AttackTargetPositioning : MonoBehaviour
     {
         if(e.status.isCrouching)
         {
-            print("crouch");
             transform.localPosition = croucingPosition;
         }
         else
         {
-            print("stand");
             transform.localPosition = standingPosition;
         }
     }

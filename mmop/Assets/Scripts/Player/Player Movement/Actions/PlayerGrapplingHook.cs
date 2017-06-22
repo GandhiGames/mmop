@@ -52,6 +52,7 @@ public class PlayerGrapplingHook : MovementAction
         hookAttachmentLoc = new GameObject("Grappling Hook Attach Location").transform;
     }
 
+    //TODO: look into grappling hook breaking off even though still holding action button
     void Update()
     {
         if(isRetracting)
@@ -80,6 +81,7 @@ public class PlayerGrapplingHook : MovementAction
 
     private void RetractHook()
     {
+        print("retracting");
         isFindingTarget = false;
 
         hookLine.SetPosition(0, (Vector2)transform.position + grapplingHook.anchor);
