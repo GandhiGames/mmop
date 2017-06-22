@@ -23,7 +23,7 @@ public class ObjectPool<T> where T : MonoBehaviour
 
         for(int i = 0; i < pool.Count; i++)
         {
-            if(pool[i].gameObject.activeSelf)
+            if(!pool[i].gameObject.activeSelf)
             {
                 retItem = pool[i];
 

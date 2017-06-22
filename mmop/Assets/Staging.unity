@@ -1077,7 +1077,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4320033820629688, guid: 02fd6d03bea870d4da7f7265932635b7, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -1.006
+      value: -2.32
       objectReference: {fileID: 0}
     - target: {fileID: 4320033820629688, guid: 02fd6d03bea870d4da7f7265932635b7, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1106,6 +1106,16 @@ Prefab:
     - target: {fileID: 4320033820629688, guid: 02fd6d03bea870d4da7f7265932635b7, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 61689969162128630, guid: 02fd6d03bea870d4da7f7265932635b7,
+        type: 2}
+      propertyPath: m_Offset.x
+      value: 0.1543523
+      objectReference: {fileID: 0}
+    - target: {fileID: 61689969162128630, guid: 02fd6d03bea870d4da7f7265932635b7,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.060160875
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 02fd6d03bea870d4da7f7265932635b7, type: 2}
@@ -1882,6 +1892,7 @@ MonoBehaviour:
   damage: 1
   numToPool: 10
   releaseForce: 10
+  reboundForce: 10
   hitTarget: {fileID: 809292580}
   prefab: {fileID: 861787958}
 --- !u!1 &1124591202

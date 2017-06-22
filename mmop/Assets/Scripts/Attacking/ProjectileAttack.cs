@@ -9,6 +9,7 @@ public class ProjectileAttack : MonoBehaviour
     public float damage = 1f;
     public int numToPool = 10;
     public float releaseForce = 100f;
+    public float reboundForce = 100f;
     public Transform hitTarget;
     public Projectile prefab;
 
@@ -33,6 +34,6 @@ public class ProjectileAttack : MonoBehaviour
 
         proj.transform.position = transform.position;
         proj.gameObject.SetActive(true);
-        proj.Initialise(events, damage, dir * releaseForce);
+        proj.Initialise(events, damage, dir * releaseForce, reboundForce);
     }
 }

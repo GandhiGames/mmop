@@ -7,6 +7,8 @@ public interface CrouchStatus
     bool isCrouching { get; }
 }
 
+//TODO: player should press crouch and jump button to drop down from platform
+// or should have to jump and then press crouch.
 [RequireComponent(typeof(PlayerControls), typeof(EventController))]
 [RequireComponent(typeof(PlayerMotor))]
 public class PlayerCrouchController : MonoBehaviour, CrouchStatus
