@@ -7,6 +7,7 @@ public interface CrouchStatus
     bool isCrouching { get; }
 }
 
+//TODO: when crouching, player can change direction (but not move), useful when firing bow.
 //TODO: player should press crouch and jump button to drop down from platform
 // or should have to jump and then press crouch.
 [RequireComponent(typeof(PlayerControls), typeof(EventController))]

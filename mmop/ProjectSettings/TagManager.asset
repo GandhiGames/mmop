@@ -17,7 +17,7 @@ TagManager:
   - 
   - Platform
   - Wall
-  - 
+  - Arrow
   - 
   - 
   - 
@@ -42,4 +42,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3620833327
+    locked: 0
+  - name: Characters
+    uniqueID: 2863672117
+    locked: 0
+  - name: Foreground
+    uniqueID: 733999051
     locked: 0
