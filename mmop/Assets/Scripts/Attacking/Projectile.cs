@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO: reset trail when removed from pool.
+//TODO: projectiles still occassionaly go through obstacles.
 [RequireComponent(typeof(PlayerMotor))]
 public class Projectile : MonoBehaviour
 {
@@ -10,22 +10,25 @@ public class Projectile : MonoBehaviour
 
     public LayerMask hitMask;
 
+    public TrailRenderer trail;
+
     private PlayerMotor motor;
     private float damage;
     private ObjectPool<Projectile> owner;
-    private float reboundForce;
     private float maxTimeAlive;
     private EventController events;
     private bool initialised = false;
+    private float trailTime;
 
     void Awake()
     {
-        motor = GetComponent<PlayerMotor>();    
+        motor = GetComponent<PlayerMotor>();
+        trailTime = trail.time;
     }
 
     void Start()
     {
-        Physics2D.queriesStartInColliders = false;    
+        Physics2D.queriesStartInColliders = false;
     }
 
     void OnDisable()
@@ -33,17 +36,21 @@ public class Projectile : MonoBehaviour
         damage = 0f;
         motor.velocity = Vector2.zero;
         initialised = false;
+        trail.time = 0f;
+    }
+
+    void OnEnable()
+    {
+        trail.time = trailTime;    
     }
 
     public void Initialise(ObjectPool<Projectile> owner, 
         EventController events,
-        float damage, Vector2 initialMove, 
-        float reboundForce, float maxTimeAlive)
+        float damage, Vector2 initialMove, float maxTimeAlive)
     {
         this.owner = owner;
         this.events = events;
         this.damage = damage;
-        this.reboundForce = reboundForce;
         this.maxTimeAlive = maxTimeAlive;
 
         motor.velocity = initialMove;
@@ -65,13 +72,21 @@ public class Projectile : MonoBehaviour
             {
                 Remove();
             }
-
-            CheckForTarget();
-
+            
             float angle = Mathf.Atan2(motor.velocity.y, motor.velocity.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }
+
+    //TODO: look into why this fixes projectile going through obstacles. Is there a better way of doing it?
+    void FixedUpdate()
+    {
+        if(initialised)
+        {
+            CheckForTarget();
+        }
+    }
+
 
     //TODO: set max rebound
     private void Remove()

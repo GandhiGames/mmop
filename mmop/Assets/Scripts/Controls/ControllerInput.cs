@@ -16,6 +16,15 @@ public class ControllerInput : MonoBehaviour, PlayerControls
     private static readonly string AXIS_HORIZONTAL_DPAD = " Horizontal Dpad";
     private static readonly string AXIS_VERTICAL_DPAD = " Vertical Dpad";
 
+    private float previousCrouchStatusDpad = 0f;
+    private float previousCrouchStatusStick = 0f;
+
+    void LateUpdate()
+    {
+        previousCrouchStatusStick = Input.GetAxisRaw(controllerName + AXIS_VERTICAL);
+        previousCrouchStatusDpad = Input.GetAxisRaw(controllerName + AXIS_VERTICAL_DPAD);
+    }
+
     public bool IsJumpButtonPressed()
     {
         return Input.GetButtonDown(controllerName + JUMP);
@@ -31,11 +40,25 @@ public class ControllerInput : MonoBehaviour, PlayerControls
         return Input.GetButtonUp(controllerName + JUMP);
     }
 
+    //TODO: Test this works - double tapping to drop from platform with controller.
+    public bool IsCrouchButtonPressed()
+    {
+        return (Input.GetAxisRaw(controllerName + AXIS_VERTICAL) < 0f && previousCrouchStatusStick >= 0f)
+            || (Input.GetAxisRaw(controllerName + AXIS_VERTICAL_DPAD) < 0f && previousCrouchStatusDpad >= 0f);
+    }
+
     public bool IsCrouchButtonHeld()
     {
         return Input.GetAxisRaw(controllerName + AXIS_VERTICAL) < 0f ||
             Input.GetAxisRaw(controllerName + AXIS_VERTICAL_DPAD) < 0f;
     }
+
+    public bool IsCrouchButtonReleased()
+    {
+        return (Input.GetAxisRaw(controllerName + AXIS_VERTICAL) >= 0f && previousCrouchStatusStick < 0f)
+            || (Input.GetAxisRaw(controllerName + AXIS_VERTICAL_DPAD) >= 0f && previousCrouchStatusDpad < 0f);
+    }
+
 
     public bool IsMovementActionButtonPressed()
     {

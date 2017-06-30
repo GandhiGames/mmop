@@ -9,8 +9,8 @@ public class ProjectileAttack : MonoBehaviour
     public float damage = 1f;
     public int numToPool = 10;
     public float releaseForce = 100f;
-    public float reboundForce = 100f;
     public float maxProjTimeAlive = 2f;
+    public Transform spawnLocation;
     public Transform hitTarget;
     public Projectile prefab;
 
@@ -31,10 +31,10 @@ public class ProjectileAttack : MonoBehaviour
     {
         var proj = projPool.Get();
 
-        var dir = (hitTarget.position - transform.position).normalized;
+        var dir = (hitTarget.position - spawnLocation.position).normalized;
 
-        proj.transform.position = transform.position;
+        proj.transform.position = spawnLocation.position;
         proj.gameObject.SetActive(true);
-        proj.Initialise(projPool, events, damage, dir * releaseForce, reboundForce, maxProjTimeAlive);
+        proj.Initialise(projPool, events, damage, dir * releaseForce, maxProjTimeAlive);
     }
 }

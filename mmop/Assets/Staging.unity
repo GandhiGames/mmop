@@ -222,6 +222,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &192325612
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 192325613}
+  - component: {fileID: 192325614}
+  m_Layer: 0
+  m_Name: Projectile Spawn Location
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &192325613
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 192325612}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.063, y: 0.047, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1064109665}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &192325614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 192325612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 546a829208de25542b155efefa494f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  standingPosition: {x: 0.063, y: 0.047}
+  croucingPosition: {x: 0.063, y: 0}
 --- !u!1 &194903477
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,6 +792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29b96efc63b620b4280397916f73667b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBetweenCrouchPressed: 0.5
 --- !u!61 &474945907
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -816,6 +859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29b96efc63b620b4280397916f73667b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBetweenCrouchPressed: 0.5
 --- !u!61 &562899161
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1038,7 +1082,7 @@ GameObject:
   - component: {fileID: 809292582}
   - component: {fileID: 809292581}
   m_Layer: 0
-  m_Name: 'Attack Target '
+  m_Name: Attack Target Grappling Hook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1051,7 +1095,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 809292579}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.255, y: 0.04699999, z: 0}
+  m_LocalPosition: {x: 0.255, y: 0.047, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1064109665}
@@ -1491,6 +1535,7 @@ Transform:
   - {fileID: 1130224250}
   - {fileID: 291025281}
   - {fileID: 809292580}
+  - {fileID: 192325613}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1781,13 +1826,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pullDistancePerSecond: 6
-  hookLineWidth: 0.02
+  hookLineWidth: 0.015
   hookSpeed: 10
   retractionSpeed: 14
   maxDistance: 8
   overRunCatchDistance: 0.8
   shootDir: {fileID: 809292580}
-  hookLineMaterial: {fileID: 10756, guid: 0000000000000000e000000000000000, type: 3}
+  hookLineMaterial: {fileID: 10756, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &1064109687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1882,8 +1927,8 @@ MonoBehaviour:
   damage: 1
   numToPool: 10
   releaseForce: 10
-  reboundForce: 10
   maxProjTimeAlive: 2
+  spawnLocation: {fileID: 192325613}
   hitTarget: {fileID: 809292580}
   prefab: {fileID: 861787958}
 --- !u!1 &1124591202

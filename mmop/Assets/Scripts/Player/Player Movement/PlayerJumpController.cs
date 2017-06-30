@@ -11,13 +11,15 @@ public class PlayerJumpController : MonoBehaviour
 
     private PlayerMotor motor;
     private PlayerControls playerControls;
+    private EventController events;
+
+    private bool canJump = true;
     private bool jump = false;
     private int jumpIndex;
     private float jumpTime = 0f;
     private bool jumpExtension = false;
     private PlayerJumpEvent jumpEvent;
     private float horizontalForce = 0f;
-    private EventController eventController;
     private bool queuedJump = false;
     private GroundStatus groundStatus;
 
@@ -25,7 +27,7 @@ public class PlayerJumpController : MonoBehaviour
     {
         motor = GetComponent<PlayerMotor>();
         playerControls = GetComponent<PlayerControls>();
-        eventController = GetComponent<EventController>();
+        events = GetComponent<EventController>();
     }
 
     void Start()
@@ -39,19 +41,26 @@ public class PlayerJumpController : MonoBehaviour
 
     void OnEnable()
     {
-        eventController.AddListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
-        eventController.AddListener<WallJumpEvent>(OnWallJumpRequested);    
+        events.AddListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
+        events.AddListener<WallJumpEvent>(OnWallJumpRequested);
+        events.AddListener<PlayerCrouchEvent>(OnCrouchStatusChanged);
     }
 
     void OnDisable()
     {
-        eventController.RemoveListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
-        eventController.RemoveListener<WallJumpEvent>(OnWallJumpRequested);
+        events.RemoveListener<PlayerGroundStatusChangeEvent>(OnGroundStatusChanged);
+        events.RemoveListener<WallJumpEvent>(OnWallJumpRequested);
+        events.RemoveListener<PlayerCrouchEvent>(OnCrouchStatusChanged);
     }
 
     //TODO: clamp max y velocity.
     void Update()
     {
+        if(!canJump)
+        {
+            return;
+        }
+
         // If we have queued a jump when we were almost grounded,
         // and we are now grounded and still requesting to jump.
         if (queuedJump && groundStatus == GroundStatus.Grounded &&
@@ -142,7 +151,7 @@ public class PlayerJumpController : MonoBehaviour
             // So we need to check we are not extending the current jump.
             if (!jumpExtension)
             { 
-                eventController.Raise(jumpEvent);
+                events.Raise(jumpEvent);
                 jumpIndex--;
             }
 
@@ -171,6 +180,15 @@ public class PlayerJumpController : MonoBehaviour
         jump = true;
 
         ResetJump();
+    }
+
+    /// <summary>
+    /// Prevents the player from jumping if they are crouched.
+    /// </summary>
+    /// <param name="e"></param>
+    private void OnCrouchStatusChanged(PlayerCrouchEvent e)
+    {
+        canJump = !e.status.isCrouching;
     }
 
     /// <summary>

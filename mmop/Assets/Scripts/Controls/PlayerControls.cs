@@ -8,7 +8,9 @@ public interface PlayerControls
     bool IsJumpButtonHeld();
     bool IsJumpButtonReleased();
 
+    bool IsCrouchButtonPressed();
     bool IsCrouchButtonHeld();
+    bool IsCrouchButtonReleased();
 
     bool IsMovementActionButtonPressed();
     bool IsMovementActionButtonHeld();
