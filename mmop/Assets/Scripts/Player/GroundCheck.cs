@@ -7,6 +7,11 @@ using UnityEngine;
 public class GroundCheck : MonoBehaviour
 {
     public Transform[] groundTransforms;
+
+    /// <summary>
+    /// This defines where the ground has to be in relation to the player for the player
+    /// to be defined as almost touching the ground. 
+    /// </summary>
     public Transform almostGroundTransform;
     public LayerMask platformLayer;
 
